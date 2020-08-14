@@ -1,0 +1,2 @@
+Production:Data Source=DESKTOP-VCI7746\SQLEXPRESS;Initial Catalog=ProjectWerkVIPServicesRudy;Integrated Security=True
+Test:Data Source=DESKTOP-VCI7746\SQLEXPRESS;Initial Catalog=ProjectWerkTest;Integrated Security=True

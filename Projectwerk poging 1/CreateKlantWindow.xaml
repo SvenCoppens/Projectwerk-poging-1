@@ -1,0 +1,51 @@
+﻿<Window x:Class="Projectwerk_poging_1.CreateKlantWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Projectwerk_poging_1"
+        mc:Ignorable="d"
+        Title="Klant Aanmaken" Height="400" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="1" Grid.ColumnSpan="2">Voornaam:</Label>
+        <TextBox Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"></TextBox>
+
+        <Label Grid.Row="3" Grid.ColumnSpan="2">Achternaam:</Label>
+        <TextBox Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"></TextBox>
+
+        <Label Grid.Row="5" Grid.ColumnSpan="3">Adres</Label>
+        <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="2"></TextBox>
+
+        <Label Grid.Row="7" Grid.ColumnSpan="3">BTW-Nummer (optioneel):</Label>
+        <TextBox Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="2"></TextBox>
+
+        <Label Grid.Row="9">Type Klant:</Label>
+        <ComboBox Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="2"></ComboBox>
+
+        <Button x:Name="KlantAanmaakButton" Grid.Row="11" Grid.RowSpan="2" Grid.Column="3" Grid.ColumnSpan="2" Click="KlantAanmaakButton_Click">Maak Klant Aan</Button>
+    </Grid>
+</Window>
