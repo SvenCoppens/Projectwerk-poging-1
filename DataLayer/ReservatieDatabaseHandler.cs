@@ -9,8 +9,13 @@ using System.Linq;
 
 namespace DataLayer
 {
-    public class ReservatieDatabaseHandler : ReservatieContext, iReservatieDatabaseHandler
+    public class ReservatieDatabaseHandler : DbContext, iReservatieDatabaseHandler
     {
+        public DbSet<Limousine> Limousines { get; set; }
+        public DbSet<Klant> Klanten { get; set; }
+        public DbSet<Reservatie> Reservaties { get; set; }
+        public DbSet<KlantenCategorie> KlantenCategorieen { get; set; }
+        public DbSet<StaffelKorting> StaffelKortingen { get; set; }
         private string _connectionString;
         public ReservatieDatabaseHandler(string db = "Production") : base()
         {
@@ -31,11 +36,9 @@ namespace DataLayer
             }
             else
                 _connectionString = connectionStrings["Production"];
+
             Database.EnsureCreated();
         }
-        //public DbSet<Limousine> Limousines { get; set; }
-        //public DbSet<Klant> Klanten { get; set; }
-        //public DbSet<Reservatie> Reservaties { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (_connectionString != null)
@@ -68,7 +71,7 @@ namespace DataLayer
         public bool BestaatKlantNummer(int klantNummer)
         {
             return Klanten.Any(x => x.KlantNummer == klantNummer);
-        }
+        }   //mag mogenlijks weg?
         public int GetAantalKlanten()
         {
             return Klanten.Count();
@@ -123,41 +126,29 @@ namespace DataLayer
         {
             return Klanten.Where(k => k.Naam == naam).ToList();
         }
-        public List<Reservatie> FindReservatieVoorKlantNaam(string klantNaam)
+        public List<Reservatie> FindReservatieDetailsVoorKlantNaam(string klantNaam)
         {
-            return Reservaties.Where(r => r.Klant.Naam.Contains(klantNaam)).ToList();
+            return Reservaties.Include(r=>r.Limousine).Include(r=>r.Klant).ThenInclude(k=>k.Categorie).ThenInclude(c=>c.StaffelKorting).Where(r => r.Klant.Naam.Contains(klantNaam)).ToList();
         }
-        public List<Reservatie> FindReservatieVoorKlantNummer(int klantNummer)
+        public List<Reservatie> FindReservatieDetailsVoorKlantNummer(int klantNummer)
         {
-            return Reservaties.Where(r => r.Klant.KlantNummer == klantNummer).ToList();
+            return Reservaties.Include(r => r.Limousine).Include(r => r.Klant).ThenInclude(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(r => r.Klant.KlantNummer == klantNummer).ToList();
         }
-        public List<Reservatie> FindReservatieVoorDatum(DateTime datum)
+        public List<Reservatie> FindReservatieDetailsVoorDatum(DateTime datum)
         {
-            return Reservaties.Where(r => r.StartMoment.Date == datum.Date).ToList();
+            return Reservaties.Include(r => r.Limousine).Include(r => r.Klant).ThenInclude(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(r => r.StartMoment.Date == datum.Date).ToList();
         }
-        public List<Reservatie> FindReservatieVoorKlantNaamEnDatum(string klantNaam, DateTime datum)
+        public List<Reservatie> FindReservatieDetailsVoorKlantNaamEnDatum(string klantNaam, DateTime datum)
         {
-            return Reservaties.Where(r => r.StartMoment.Date == datum.Date && r.Klant.Naam.Contains(klantNaam)).ToList();
+            return Reservaties.Include(r => r.Limousine).Include(r => r.Klant).ThenInclude(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(r => r.StartMoment.Date == datum.Date && r.Klant.Naam.Contains(klantNaam)).ToList();
         }
-        public List<Reservatie> FindReservatieVoorKlantNummerEnDatum(int klantNummer, DateTime datum)
+        public List<Reservatie> FindReservatieDetailsVoorKlantNummerEnDatum(int klantNummer, DateTime datum)
         {
-            return Reservaties.Where(r => r.StartMoment.Date == datum.Date && r.Klant.KlantNummer == klantNummer).ToList();
+            return Reservaties.Include(r => r.Limousine).Include(r => r.Klant).ThenInclude(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(r => r.StartMoment.Date == datum.Date && r.Klant.KlantNummer == klantNummer).ToList();
         }
-        public List<Reservatie> GetReservatiesVoorKlant(Klant klant)
+        public Klant FindVolledigeKlantVoorKlantNummer(int klantNummer)
         {
-            return Reservaties.Where(r => r.Klant.Equals(klant)).ToList();
-        }
-        public List<Reservatie> GetReservatiesVoorDatum(DateTime datum)
-        {
-            return Reservaties.Where(r => r.StartMoment.Date == datum).ToList();
-        }
-        public List<Reservatie> GetReservatiesVoorDatumEnKlant(Klant klant, DateTime datum)
-        {
-            return Reservaties.Where(r => r.Klant == klant && r.StartMoment.Date == datum).ToList();
-        }
-        public Klant FindKlantVoorKlantNummer(int klantNummer)
-        {
-            return Klanten.Find(klantNummer);
+            return Klanten.Include(k=>k.Categorie).ThenInclude(c=>c.StaffelKorting).SingleOrDefault(k=>k.KlantNummer==klantNummer);
         }
         //public int GetNewReservatieNummer()
         //{
@@ -172,6 +163,29 @@ namespace DataLayer
         public Limousine FindLimousineVoorId(int id)
         {
             return Limousines.Find(id);
+        }
+
+        public DomainLibrary.KlantenCategorie VindKlantenCategorieVoorNaam(string klantenCategorie)
+        {
+            return KlantenCategorieen.Find(klantenCategorie);
+        }
+
+        public StaffelKorting VindStaffelKortingVoorNaam(string naam)
+        {
+            var find = StaffelKortingen.Where(r => r.Naam == naam);
+            if (find != null && find.Count()>0)
+                return find.First();
+            else return null;
+        }
+
+        public void VoegStaffelKortingToe(StaffelKorting staffelKorting)
+        {
+            StaffelKortingen.Add(staffelKorting);
+        }
+
+        public void VoegKlantenCategorieToe(KlantenCategorie categorie)
+        {
+            KlantenCategorieen.Add(categorie);
         }
     }
 }

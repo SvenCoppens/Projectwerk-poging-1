@@ -21,7 +21,6 @@ namespace DomainLibrary
         //klantnummer zou bepaald moeten worden vanuit de database, dus niet echt behandeld in de constructor????
         [Key]
         public int KlantNummer { get; set; }
-        public StaffelKorting StaffelKorting {get;set;}
         public string Naam { get; set; }
         public KlantenCategorie Categorie { get; set; }
         public string BtwNummer {get;set;}

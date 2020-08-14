@@ -46,6 +46,6 @@
         <Button Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Margin="10,2" Click="ZoekOpNummerEnDatumButton_Click">Zoek op klantnummer en datum</Button>
 
         <DataGrid Name="ReservatieDataGrid" Grid.Row="7" Grid.RowSpan="4" Grid.ColumnSpan="7" Margin="5,0"></DataGrid>
-        <Button Grid.Row="12" Grid.Column="5" Click="ToonReservaiteDetailsButton_Click">Details</Button>
+        <Button Grid.Row="12" Grid.Column="5" Click="ToonReservatieDetailsButton_Click">Details</Button>
     </Grid>
 </Window>

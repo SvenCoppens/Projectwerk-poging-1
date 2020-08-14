@@ -17,17 +17,18 @@ namespace DomainLibrary.Interfaces
         List<Limousine> GetLimousinesWithReservaties();
         List<Klant> FindKlantVoorBtwNummer(string btwNummer);
         List<Klant>  FindKlantVoorNaam(string naam);
-        List<Reservatie> FindReservatieVoorKlantNaam(string klantNaam);
-        List<Reservatie> FindReservatieVoorKlantNummer(int klantNummer);
-        List<Reservatie> FindReservatieVoorDatum(DateTime datum);
-        List<Reservatie> FindReservatieVoorKlantNaamEnDatum(string klantNaam, DateTime datum);
-        List<Reservatie> FindReservatieVoorKlantNummerEnDatum(int klantNummer, DateTime datum);
-        List<Reservatie> GetReservatiesVoorKlant(Klant klant);
-        List<Reservatie> GetReservatiesVoorDatum(DateTime date);
-        List<Reservatie> GetReservatiesVoorDatumEnKlant(Klant klant, DateTime datum);
-        Klant FindKlantVoorKlantNummer(int klantNummer);
+        List<Reservatie> FindReservatieDetailsVoorKlantNaam(string klantNaam);
+        List<Reservatie> FindReservatieDetailsVoorKlantNummer(int klantNummer);
+        List<Reservatie> FindReservatieDetailsVoorDatum(DateTime datum);
+        List<Reservatie> FindReservatieDetailsVoorKlantNaamEnDatum(string klantNaam, DateTime datum);
+        List<Reservatie> FindReservatieDetailsVoorKlantNummerEnDatum(int klantNummer, DateTime datum);
+        Klant FindVolledigeKlantVoorKlantNummer(int klantNummer);
         //int GetNewReservatieNummer();
         int GetAantalReservatiesVoorKlantInJaar(Klant klant, int jaar);
         Limousine FindLimousineVoorId(int id);
+        KlantenCategorie VindKlantenCategorieVoorNaam(string klantenCategorie);
+        StaffelKorting VindStaffelKortingVoorNaam(string naam);
+        void VoegStaffelKortingToe(StaffelKorting staffelKorting);
+        void VoegKlantenCategorieToe(KlantenCategorie categorie);
     }
 }

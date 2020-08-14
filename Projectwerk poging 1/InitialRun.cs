@@ -3,6 +3,7 @@ using DomainLibrary;
 using DomainLibrary.Enums;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Text;
 
@@ -61,20 +62,24 @@ namespace Projectwerk_poging_1
         public static void CreateInitialDatabaseKlanten()
         {
             string klantenBestand = @"D:\Programmeren Data en Bestanden\Programmeren Projectwerk\klanten.txt";
+                    ReservatieManager manager = new ReservatieManager(new ReservatieDatabaseHandler());
+            manager.VoegStaffelKortingToe("geen", new List<int> { 0 }, new List<double> { 0 });
+            manager.VoegStaffelKortingToe("vip", new List<int> {0, 2, 7, 15 }, new List<double> {0, 5, 7.5, 10 });
+            manager.VoegStaffelKortingToe("planner", new List<int> {0, 5, 10, 15,20,25 }, new List<double> {0, 7.5, 10,12.50,15,25 });
+
 
             using (StreamReader sr = new StreamReader(klantenBestand))
             {
                 string line = sr.ReadLine();
                 while ((line = sr.ReadLine()) != null)
                 {
-                    ReservatieManager manager = new ReservatieManager(new ReservatieDatabaseHandler());
                     string[] splitline = line.Split(",");
                     int klantnummer = int.Parse(splitline[0]);
                     string naam = splitline[1];
-                    KlantenCategorie categorie = (KlantenCategorie)Enum.Parse(typeof(KlantenCategorie), splitline[2]);
                     string btwNummer = splitline[3];
                     string adres = splitline[4];
-                    manager.AddKlant(naam, categorie, btwNummer, adres, klantnummer);
+                    string categorie = splitline[2];
+                    manager.VoegKlantToe(naam, categorie, btwNummer, adres, klantnummer);
                 }
             }
         }

@@ -27,14 +27,14 @@ namespace Projectwerk_poging_1
         private void ZoekOpKlantNaamButton_Click(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            List<Reservatie> reservaties = rM.FindReservatieVoorKlantNaam(KlantNaamTextBox.Text);
+            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorKlantNaam(KlantNaamTextBox.Text);
             SetDataGridSource(reservaties);
         }
 
         private void ZoekOpKlantNummerButton_Click(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            List<Reservatie> reservaties = rM.FindReservatieVoorKlantNummer(int.Parse(KlantNummerTextBox.Text));
+            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorKlantNummer(int.Parse(KlantNummerTextBox.Text));
             SetDataGridSource(reservaties);
         }
 
@@ -42,7 +42,7 @@ namespace Projectwerk_poging_1
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
             DateTime datum = (DateTime)ReservatieDatumCalender.SelectedDate;
-            List<Reservatie> reservaties = rM.FindReservatieVoorDatum(datum);
+            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorDatum(datum);
             SetDataGridSource(reservaties);
         }
 
@@ -50,7 +50,7 @@ namespace Projectwerk_poging_1
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
             DateTime datum = (DateTime)ReservatieDatumCalender.SelectedDate;
-            List<Reservatie> reservaties = rM.FindReservatieVoorKlantNaamEnDatum(KlantNaamTextBox.Text,datum);
+            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorKlantNaamEnDatum(KlantNaamTextBox.Text,datum);
             SetDataGridSource(reservaties);
         }
 
@@ -58,7 +58,7 @@ namespace Projectwerk_poging_1
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
             DateTime datum = (DateTime)ReservatieDatumCalender.SelectedDate;
-            List<Reservatie> reservaties = rM.FindReservatieVoorKlantNummerEnDatum(int.Parse(KlantNummerTextBox.Text), datum);
+            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorKlantNummerEnDatum(int.Parse(KlantNummerTextBox.Text), datum);
             SetDataGridSource(reservaties);
         }
         private void SetDataGridSource(List<Reservatie> reservaties)
@@ -67,7 +67,7 @@ namespace Projectwerk_poging_1
             ReservatieDataGrid.ItemsSource = reservaties;
         }
 
-        private void ToonReservaiteDetailsButton_Click(object sender, RoutedEventArgs e)
+        private void ToonReservatieDetailsButton_Click(object sender, RoutedEventArgs e)
         {
             Reservatie res = (Reservatie)ReservatieDataGrid.SelectedItem;
             ReservatieDetailsWindow rdw = new ReservatieDetailsWindow(res);

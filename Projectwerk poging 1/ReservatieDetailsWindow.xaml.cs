@@ -21,22 +21,33 @@ namespace Projectwerk_poging_1
         public ReservatieDetailsWindow(Reservatie reservatie)
         {
             InitializeComponent();
-            DatumReserveringTextBlock.Text = reservatie.DatumVanReservering.ToString("dddd, dd MMMM yyyy");
+            DatumVanAanmaakReservatieTextBlock.Text = reservatie.DatumVanReservering.ToString("HH:mm dddd, dd MMMM yyyy");
+            DatumReserveringTextBlock.Text = reservatie.StartMoment.ToString("HH:mm dddd, dd MMMM yyyy");
             ReserveringNummerTextBlock.Text = reservatie.ReserveringsNummer.ToString();
 
             //Klant informatie:
             KlantNummerTextBlock.Text = reservatie.Klant.KlantNummer.ToString();
             KlantNaamTextBlock.Text = reservatie.Klant.Naam;
             KlantAdresTextBlock.Text = reservatie.Klant.Adres;
+            KlantCategorieTextBlock.Text = reservatie.Klant.Categorie.Naam;
             if (reservatie.Klant.BtwNummer != null)
                 KlantBtwNummerTextBlock.Text = reservatie.Klant.BtwNummer;
+            else BtwNummerLabel.Text = null;
+            
 
             //limo informatie
             LimoNaamTextBlock.Text = reservatie.Limousine.Naam;
+            StartLocatieTextBlock.Text = reservatie.StartStalLocatie.ToString();
+            EindLocatieTextBlock.Text = reservatie.AankomstStalLocatie.ToString();
+
+            if (reservatie.VerwachtAdres != null && reservatie.VerwachtAdres != "")
+                VerwachtAdresTextBlock.Text = reservatie.VerwachtAdres;
+            else
+                VerwachtAdresLabel.Content = null;
 
             //Prijs afhandeling
             KortingTextBlock.Text = reservatie.AangerekendeKorting.ToString() +"%";
-            TotaalZonderBtwTextBlock.Text = reservatie.TotaalExclusiefBtw.ToString() + "€";
+            TotaalZonderBtwTextBlock.Text = reservatie.TotaalMetKortingExclusiefBtw.ToString() + "€";
             BtwBedragTextBlock.Text = reservatie.BtwBedrag.ToString() +"€";
             TotaalBedragTextBlock.Text = reservatie.TotaalTeBetalen.ToString() + "€";
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Xml.Schema;
 
 namespace DomainLibrary
 {
@@ -54,7 +55,7 @@ namespace DomainLibrary
         public double NachtUurPrijs { get; set; }
 
         public double AangerekendeKorting { get; set; }
-        public double TotaalExclusiefBtw { get; set; }
+        public double TotaalMetKortingExclusiefBtw { get; set; }
         public double BtwBedrag { get; set; }
         public double TotaalTeBetalen { get; set; }
 
@@ -63,50 +64,83 @@ namespace DomainLibrary
             double btwPercentage = 0.06;
             if (Arrengement == Arrengement.Wellness)
             {
-                TotaalExclusiefBtw = (double)Limousine.WellnessPrijs;
-                BtwBedrag = TotaalExclusiefBtw * btwPercentage;
-                TotaalTeBetalen = TotaalExclusiefBtw + BtwBedrag;
+                TotaalMetKortingExclusiefBtw = (double)Limousine.WellnessPrijs;
+                
             }
             else if (Arrengement == Arrengement.Wedding)
             {
                 //maximum aantal uren controle nog toevoegen.
                 OverUurPrijs = (Math.Round(Limousine.EersteUurPrijs * 0.65) / 5) * 5;
                 AantalOverUur = AantalUur - 7;
-                TotaalExclusiefBtw = AantalOverUur * OverUurPrijs;
+                TotaalMetKortingExclusiefBtw = AantalOverUur * OverUurPrijs;
                 //TotaalExclusiefBtw = WeddingExtraUrenPrijsBerekening(AantalUur, Limousine);
 
                 VastePrijs = (double)Limousine.WeddingPrijs;
-                TotaalExclusiefBtw += VastePrijs;
-                BtwBedrag = TotaalExclusiefBtw * btwPercentage;
-                TotaalTeBetalen = TotaalExclusiefBtw + BtwBedrag;
+                TotaalMetKortingExclusiefBtw += VastePrijs;
             }
             else if (Arrengement == Arrengement.NightLife)
             {
                 NachtUurPrijs = (Math.Round(Limousine.EersteUurPrijs * 1.4) / 5) * 5;
                 AantalNachtUur = AantalUur - 7;
-                TotaalExclusiefBtw = AantalNachtUur * NachtUurPrijs;
+                TotaalMetKortingExclusiefBtw = AantalNachtUur * NachtUurPrijs;
 
                 VastePrijs = (double)Limousine.NightlifePrijs;
-                TotaalExclusiefBtw += VastePrijs;
-                BtwBedrag = TotaalExclusiefBtw * btwPercentage;
-                TotaalTeBetalen = TotaalExclusiefBtw + BtwBedrag;
+                TotaalMetKortingExclusiefBtw += VastePrijs;
             }
             else if (Arrengement == Arrengement.Business || Arrengement == Arrengement.Airport)
             {
                 EersteUurPrijs = Limousine.EersteUurPrijs;
                 AantalEersteUur = 1;
-                TotaalExclusiefBtw = EersteUurPrijs * AantalEersteUur;
+                TotaalMetKortingExclusiefBtw = EersteUurPrijs * AantalEersteUur;
 
+                DateTime eindMoment = StartMoment.AddHours(AantalUur);
+
+                //geen nachturen (BUITEN)
+                if (StartMoment.Hour < 22 && StartMoment.Hour >= 7 && AantalUur < 22 - StartMoment.Hour)
+                {
+                    AantalStandaardUur = AantalUur - 1;
+                }
+                //Enkel nachturen (BINNEN)
+                else if(StartMoment.Hour>=22 && (eindMoment.Hour < 7||eindMoment.Day==StartMoment.Day))
+                {
+                    AantalNachtUur = AantalUur - 1;
+                }
+                //begint voor de nachturen
+                else if (StartMoment.Hour < 22 && StartMoment.Hour>=7)
+                {
+                    //loopt niet door tot de volgende ochtend
+                    if (eindMoment.Hour < 7 || eindMoment.Day == StartMoment.Day)
+                    {
+                        AantalStandaardUur = 22 - StartMoment.Hour - 1;
+                        AantalNachtUur = AantalUur - 1 - AantalStandaardUur;
+                    }
+                    //loopt wel door tot de volgende ochtend
+                    else
+                    {
+                        //begint ervoor, loopt door tot na => maximaal aantal nachturen
+                        AantalNachtUur = 9;
+                        AantalStandaardUur = AantalUur - 1 - AantalNachtUur;
+                    }
+                }
+                //begint in de nachturen, en loopt door tot erna
+                else
+                {
+                    AantalStandaardUur = eindMoment.Hour - 7;
+                    AantalNachtUur = AantalUur - 1 - AantalStandaardUur;
+                }
                 StandaarUurPrijs = (Math.Round(Limousine.EersteUurPrijs * 0.65) / 5) * 5;
-                AantalStandaardUur = AantalUur - 1;
-                TotaalExclusiefBtw += AantalStandaardUur * StandaarUurPrijs;
-                BtwBedrag = TotaalExclusiefBtw * btwPercentage;
-                TotaalTeBetalen = BtwBedrag + TotaalExclusiefBtw;
+                NachtUurPrijs = (Math.Round(Limousine.EersteUurPrijs * 1.4) / 5) * 5;
+                TotaalMetKortingExclusiefBtw += AantalStandaardUur * StandaarUurPrijs;
+                TotaalMetKortingExclusiefBtw += AantalNachtUur * NachtUurPrijs;
+
+                TotaalMetKortingExclusiefBtw = TotaalMetKortingExclusiefBtw * (1 - (AangerekendeKorting / 100));
             }
             else
             {
                 throw new NotImplementedException("New Arrengement is not properly implemented.");
             }
+            BtwBedrag = TotaalMetKortingExclusiefBtw * btwPercentage;
+            TotaalTeBetalen = (TotaalMetKortingExclusiefBtw + BtwBedrag);
         }
     }
 }

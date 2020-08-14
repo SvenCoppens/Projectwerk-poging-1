@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projectwerk_poging_1"
         mc:Ignorable="d"
-        Title="Reservatie_details" Height="550" Width="800">
+        Title="Reservatie_details" Height="700" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -42,40 +42,56 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="1">Klant:</Label>
+        <Border Grid.Row="1" Grid.RowSpan="5" Grid.ColumnSpan="3" BorderThickness="2" BorderBrush="Black"></Border>
         <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Name="KlantNummerTextBlock">*Insert Klant Nummer</TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Name="KlantNaamTextBlock">*Insert Klant Naam</TextBlock>
         <TextBlock Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Name="KlantAdresTextBlock">*Insert Klant Adres</TextBlock>
-        <TextBlock Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Name="KlantBtwNummerTextBlock">*Insert Btw Nummer</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Name="KlantCategorieTextBlock">*InsertKlantCategorie</TextBlock>
+        <TextBlock Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Name="KlantBtwNummerTextBlock">*Insert Btw Nummer</TextBlock>
 
-        <TextBlock Name="DatumReserveringTextBlock" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="2">*Insert Datum van Reservering</TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="2,0">Klantnummer:</TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="2,0">Naam:</TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Margin="2,0">Adres:</TextBlock>
+        <TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Margin="2,0">Categorie:</TextBlock>
+        <TextBlock Name="BtwNummerLabel" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Margin="2,0">BTW nummer:</TextBlock>
+
+        <TextBlock Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2">Datum van reservering:</TextBlock>
+        <TextBlock x:Name="DatumVanAanmaakReservatieTextBlock" Grid.Row="1" Grid.Column="7" Grid.ColumnSpan="2">*insert datum*</TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2">Datum van uitvoer:</TextBlock>
+        <TextBlock Name="DatumReserveringTextBlock" Grid.Row="3" Grid.Column="7" Grid.ColumnSpan="2">*Insert Datum van Reservering</TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2">ReserveringsNummer:</TextBlock>
         <TextBlock x:Name="ReserveringNummerTextBlock" Grid.Column="7" Grid.Row="2" Grid.ColumnSpan="2">*ReserveringsNummer*</TextBlock>
 
-        <Label Grid.Row="6">Startlocatie:</Label>
-        <TextBlock Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2">Adres waar de Limo Verwacht wordt</TextBlock>
+        <Label Grid.Row="6" Grid.Column="0">Limousine:</Label>
+        <TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Name="LimoNaamTextBlock">*Insert Limo*</TextBlock>
+        
+        <Label Grid.Row="6" Grid.ColumnSpan="2" Grid.Column="5">Start Stalplaats:</Label>
+        <TextBlock x:Name="StartLocatieTextBlock" Grid.Column="7" Grid.Row="6" Grid.ColumnSpan="2"></TextBlock>
 
-        <Label Grid.Row="7">Startlocatie:</Label>
-        <TextBlock Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2">Adres waar de Limo Gestopt is</TextBlock>
-        <Label Grid.Row="6" Grid.Column="5">Limousine:</Label>
-        <TextBlock Grid.Row="7" Grid.Column="6" Grid.ColumnSpan="2" Name="LimoNaamTextBlock">*Insert Limo*</TextBlock>
+        <Label Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="5">Eind Stalplaats:</Label>
+        <TextBlock x:Name="EindLocatieTextBlock" Grid.Column="7" Grid.Row="7" Grid.ColumnSpan="2"></TextBlock>
 
+        <Label Name="VerwachtAdresLabel" Grid.Row="8" Grid.Column="5" Grid.ColumnSpan="2">Verwacht adres:</Label>
+        <TextBlock x:Name="VerwachtAdresTextBlock" Grid.Row="9" Grid.Column="6" Grid.ColumnSpan="3"></TextBlock>
+        
+        <Border Grid.Row="9" Grid.RowSpan="10" Grid.ColumnSpan="4" BorderThickness="2" BorderBrush="Black"></Border>
         <Label Grid.Row="9">Vaste Kost:</Label>
-        <TextBlock x:Name="VasteKostPrijsTextBlock" Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="2">*Insert Vaste Kost*</TextBlock>
+        <TextBlock x:Name="VasteKostPrijsTextBlock" Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="2">n.v.t.</TextBlock>
 
         <Label Grid.Row="10" Grid.Column="0">Eerste Uur:</Label>
-        <TextBlock Name="EersteUurPrijsTextBlock" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="2">*Insert Eerste Uur Prijs*</TextBlock>
+        <TextBlock Name="EersteUurPrijsTextBlock" Grid.Row="10" Grid.Column="3" Grid.ColumnSpan="2">n.v.t.</TextBlock>
         
         <Label Name="AantalStandaardUurLabel" Grid.Row="11" Grid.Column="0">Standaard Uur:</Label>
-        <TextBlock x:Name="StandaardUurPrijsTextBlock" Grid.Row="11" Grid.Column="2">*standaard/u</TextBlock>
-        <TextBlock x:Name="StandaardUurTotaalTextBlock" Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="2">*Insert Standaard Uur Prijs*</TextBlock>
+        <TextBlock x:Name="StandaardUurPrijsTextBlock" Grid.Row="11" Grid.Column="2"></TextBlock>
+        <TextBlock x:Name="StandaardUurTotaalTextBlock" Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="2">n.v.t.</TextBlock>
 
         <Label Name="AantalOverUurLabel" Grid.Row="12" Grid.Column="0">Overuren:</Label>
-        <TextBlock x:Name="OverUurPrijsTextBlock" Grid.Column="2" Grid.Row="12">overuur/u</TextBlock> 
-        <TextBlock x:Name="OverUurTotaalTextBlock" Grid.Column="3" Grid.Row="12" Grid.ColumnSpan="2">*Insert OverUrenPrijs*</TextBlock>
+        <TextBlock x:Name="OverUurPrijsTextBlock" Grid.Column="2" Grid.Row="12"></TextBlock>
+        <TextBlock x:Name="OverUurTotaalTextBlock" Grid.Column="3" Grid.Row="12" Grid.ColumnSpan="2">n.v.t.</TextBlock>
 
         <Label Name="AantalNachtUrenLabel" Grid.Row="13">Nachturen:</Label>
-        <TextBlock Name="NachtUurPrijsTextBlock" Grid.Row="13" Grid.Column="2">nachtuur/u</TextBlock>
-        <TextBlock Name="NachtUurTotaalTextBlock" Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="2">*Insert NachtUur prijs</TextBlock>
+        <TextBlock Name="NachtUurPrijsTextBlock" Grid.Row="13" Grid.Column="2"></TextBlock>
+        <TextBlock Name="NachtUurTotaalTextBlock" Grid.Row="13" Grid.Column="3" Grid.ColumnSpan="2">n.v.t.</TextBlock>
 
         <Label Grid.Row="14">Korting:</Label>
         <TextBlock x:Name="KortingTextBlock" Grid.Row="14" Grid.Column="3" Grid.ColumnSpan="2">*Korting*</TextBlock>
@@ -88,6 +104,7 @@
         <TextBlock x:Name="BtwBedragTextBlock" Grid.Row="17" Grid.Column="3" Grid.ColumnSpan="2">*Insert Btw Bedrag</TextBlock>
 
         <Label Grid.Column="0" Grid.Row="18">Te Betalen:</Label>
-        <TextBlock x:Name="TotaalBedragTextBlock" Grid.Row="18" Grid.Column="3" Grid.ColumnSpan="2">*Insert Totaal Bedrag</TextBlock>
+        <Border Grid.Row="18" Grid.Column="3" Grid.ColumnSpan="1" BorderThickness="1" BorderBrush="Black" Margin="-2,0,0,0"></Border>
+        <TextBlock x:Name="TotaalBedragTextBlock" Grid.Row="18" Grid.Column="3" Grid.ColumnSpan="2" >*Insert Totaal Bedrag</TextBlock>
     </Grid>
 </Window>

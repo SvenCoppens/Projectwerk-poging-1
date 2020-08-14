@@ -23,29 +23,61 @@ namespace DomainLibrary
         }
         //klantnummer default gelijk aan 0 zodat we weten wanneer we een nieuw klantnummer moeten aanmaken.
         //Exceptions hier afhandelen want dit is de enige klasse die effectief alle nodige informatie heeft om deze exceptions te controleren.
-        public void AddKlant(string naam,KlantenCategorie categorie,string btw,string adres, int klantNummer = 0)
+        public void VoegKlantToe(string naam, string klantenCategorie,string btw,string adres, int klantNummer = 0)
         {
             if (klantNummer == 0)
             {
                 klantNummer = Handler.GetNewKlantNummer();
             }
-            //else
-            //{
-            //    if (Handler.BestaatKlantNummer(klantNummer))
-            //    {
-            //        throw new IncorrectParameterException("klantnummer was een ongeldige waarde");
-            //    }
-            //}
-            Handler.AddKlant(new Klant(klantNummer,naam,categorie,btw,adres));
+            KlantenCategorie categorie = null;  
 
+            //if (klantenCategorie.Contains("planner"))
+            //    categorie = Handler.VindKlantenCategorieVoorNaam("planner");
+            //else
+                categorie= Handler.VindKlantenCategorieVoorNaam(klantenCategorie);
+
+            if (categorie == null)
+            {
+                StaffelKorting staffelKorting = null;
+                if (klantenCategorie.Contains("planner"))
+                    staffelKorting = Handler.VindStaffelKortingVoorNaam("planner");
+                else
+                    staffelKorting = Handler.VindStaffelKortingVoorNaam(klantenCategorie);
+                if(staffelKorting==null)
+                    staffelKorting = Handler.VindStaffelKortingVoorNaam("geen");
+                categorie = new KlantenCategorie(klantenCategorie,staffelKorting);
+                Handler.VoegKlantenCategorieToe(categorie);
+            }
+            Handler.AddKlant(new Klant(klantNummer, naam, categorie, btw, adres));
         }
+        public void VoegStaffelKortingToe(string naam, List<int> breekpunten, List<double> kortingsPercentages)
+        {
+            StaffelKorting staffelKorting = new StaffelKorting(naam, breekpunten, kortingsPercentages);
+            Handler.VoegStaffelKortingToe(staffelKorting);
+        }
+        //public void AddKlant(string naam,KlantenCategorie categorie,string btw,string adres, int klantNummer = 0)
+        //{
+        //    if (klantNummer == 0)
+        //    {
+        //        klantNummer = Handler.GetNewKlantNummer();
+        //    }
+        //    //else
+        //    //{
+        //    //    if (Handler.BestaatKlantNummer(klantNummer))
+        //    //    {
+        //    //        throw new IncorrectParameterException("klantnummer was een ongeldige waarde");
+        //    //    }
+        //    //}
+        //    Handler.AddKlant(new Klant(klantNummer,naam,categorie,btw,adres));
+
+        //}
         public void ReservatieMaken(int klantNr,DateTime startDatum,Arrengement arrengement, int startUur,int duur,Limousine limo, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
         {
             Klant klant = FindKlantVoorKlantNummer(klantNr);
             //int reservatieNummer = GetNewReservatieNummer();
             limo = FindLimousineVoorId(limo.Id);
             double korting = 0;
-            if(klant.StaffelKorting!=null)
+            if(klant.Categorie.StaffelKorting!=null)
                 korting = BerekenKortingsPercentage(klant,startDatum);
             Reservatie res = new Reservatie(klant, startDatum, arrengement, startUur, duur,limo, DateTime.Now, startStalLocatie, aankomstStalLocatie, verwachtAdres,korting);
             AddReservatie(res);
@@ -60,19 +92,6 @@ namespace DomainLibrary
         {
             Handler.AddReservatie(reservatie);
         }
-        public List<Reservatie> GetReservatiesVoorKlant(Klant klant)
-        {
-            return Handler.GetReservatiesVoorKlant(klant);
-        }
-        public List<Reservatie> GetReservatiesVoorDatum(DateTime datum)
-        {
-            return Handler.GetReservatiesVoorDatum(datum);
-        }
-        public List<Reservatie> GetReservatiesVoorDatumEnKlant(Klant klant,DateTime datum)
-        {
-            return Handler.GetReservatiesVoorDatumEnKlant(klant, datum);
-        }
-
         public int GetAantalLimousines()
         {
             return Handler.GetAantalLimousines();
@@ -123,27 +142,27 @@ namespace DomainLibrary
         }
         public Klant FindKlantVoorKlantNummer(int klantNummer)
         {
-            return Handler.FindKlantVoorKlantNummer(klantNummer);
+            return Handler.FindVolledigeKlantVoorKlantNummer(klantNummer);
         }
-        public List<Reservatie> FindReservatieVoorKlantNaam(string klantNaam)
+        public List<Reservatie> FindReservatieDetailsVoorKlantNaam(string klantNaam)
         {
-            return Handler.FindReservatieVoorKlantNaam(klantNaam);
+            return Handler.FindReservatieDetailsVoorKlantNaam(klantNaam);
         }
-        public List<Reservatie> FindReservatieVoorKlantNummer(int klantNummer)
+        public List<Reservatie> FindReservatieDetailsVoorKlantNummer(int klantNummer)
         {
-            return Handler.FindReservatieVoorKlantNummer(klantNummer);
+            return Handler.FindReservatieDetailsVoorKlantNummer(klantNummer);
         }
-        public List<Reservatie> FindReservatieVoorDatum(DateTime datum)
+        public List<Reservatie> FindReservatieDetailsVoorDatum(DateTime datum)
         {
-            return Handler.FindReservatieVoorDatum(datum);
+            return Handler.FindReservatieDetailsVoorDatum(datum);
         }
-        public List<Reservatie> FindReservatieVoorKlantNaamEnDatum(string klantNaam, DateTime datum)
+        public List<Reservatie> FindReservatieDetailsVoorKlantNaamEnDatum(string klantNaam, DateTime datum)
         {
-            return Handler.FindReservatieVoorKlantNaamEnDatum(klantNaam, datum);
+            return Handler.FindReservatieDetailsVoorKlantNaamEnDatum(klantNaam, datum);
         }
-        public List<Reservatie> FindReservatieVoorKlantNummerEnDatum(int klantNummer, DateTime datum)
+        public List<Reservatie> FindReservatieDetailsVoorKlantNummerEnDatum(int klantNummer, DateTime datum)
         {
-            return Handler.FindReservatieVoorKlantNummerEnDatum(klantNummer, datum);
+            return Handler.FindReservatieDetailsVoorKlantNummerEnDatum(klantNummer, datum);
         }
         //public int GetNewReservatieNummer()
         //{
@@ -156,25 +175,7 @@ namespace DomainLibrary
         public double BerekenKortingsPercentage(Klant klant,DateTime datum)
         {
             int aantalReservaties = GetAantalReservatiesVoorKlantInJaar(klant, datum.Year);
-            double korting = 0;
-            //kortingenstring van het formaat "5:7.5;10:10 opsplitsen zodat we de gepaste korting kunnen uitrekenen
-            string[] kortingSplits = klant.StaffelKorting.Kortingen.Split(";");
-            List<int> breekpunten = new List<int>() { 0};
-            List<double> kortingen = new List<double>() { 0};
-            foreach(string combo in kortingSplits)
-            {
-                string[] temp = combo.Split(":");
-                breekpunten.Add(int.Parse(temp[0]));
-                kortingen.Add(double.Parse(temp[1]));
-            }
-            int teGebruikenIndex = 0;
-            for(int i =0;i<breekpunten.Count;i++)
-            {
-                if (breekpunten[i] < aantalReservaties)
-                    teGebruikenIndex = i;
-            }
-            korting = kortingen[teGebruikenIndex];
-            return korting;
+            return klant.Categorie.StaffelKorting.BerekenKorting(aantalReservaties);
         }
     }
 }
