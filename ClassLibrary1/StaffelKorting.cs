@@ -32,7 +32,7 @@ namespace DomainLibrary
             int index= 0;
             for(int i=0;i<breekpunten.Count;i++)
             {
-                if (aantalReservaties > breekpunten[i])
+                if (aantalReservaties >= breekpunten[i])
                     index = i;
             }
             return kortingen[index];
@@ -58,6 +58,10 @@ namespace DomainLibrary
                     kortingen += ";";
             }
             Kortingen = kortingen;
+        }
+        public override string ToString()
+        {
+            return Naam;
         }
     }
 }

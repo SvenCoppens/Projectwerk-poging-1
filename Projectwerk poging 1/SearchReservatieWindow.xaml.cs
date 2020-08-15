@@ -22,6 +22,7 @@ namespace Projectwerk_poging_1
         public SearchReservatieWindow()
         {
             InitializeComponent();
+            ReservatieDatumCalender.SelectedDate = DateTime.Today;
         }
 
         private void ZoekOpKlantNaamButton_Click(object sender, RoutedEventArgs e)
@@ -70,8 +71,13 @@ namespace Projectwerk_poging_1
         private void ToonReservatieDetailsButton_Click(object sender, RoutedEventArgs e)
         {
             Reservatie res = (Reservatie)ReservatieDataGrid.SelectedItem;
-            ReservatieDetailsWindow rdw = new ReservatieDetailsWindow(res);
-            rdw.Show();
+            if (res != null)
+            {
+                ReservatieDetailsWindow rdw = new ReservatieDetailsWindow(res);
+                rdw.Show();
+            }
+            else
+                MessageBox.Show("Gelieve een reservatie te selecteren", "Geen reservatie geselecteerd", MessageBoxButton.OK);
         }
     }
 }

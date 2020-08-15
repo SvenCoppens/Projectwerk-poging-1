@@ -43,7 +43,7 @@ namespace Projectwerk_poging_1
             if (reservatie.VerwachtAdres != null && reservatie.VerwachtAdres != "")
                 VerwachtAdresTextBlock.Text = reservatie.VerwachtAdres;
             else
-                VerwachtAdresLabel.Content = null;
+                VerwachtAdresLabel.Text = null;
 
             //Prijs afhandeling
             KortingTextBlock.Text = reservatie.AangerekendeKorting.ToString() +"%";
@@ -60,19 +60,19 @@ namespace Projectwerk_poging_1
             if (reservatie.AantalStandaardUur != 0)
             {
                 AantalStandaardUurLabel.ContentStringFormat = $"{reservatie.AantalStandaardUur} * " + AantalStandaardUurLabel.ContentStringFormat;
-                StandaardUurPrijsTextBlock.Text = reservatie.StandaarUurPrijs.ToString();
+                StandaardUurPrijsTextBlock.Text = reservatie.StandaarUurPrijs.ToString()+"/h";
                 StandaardUurTotaalTextBlock.Text = (reservatie.StandaarUurPrijs * reservatie.AantalStandaardUur).ToString();
             }
             if (reservatie.AantalOverUur != 0)
             {
                 AantalOverUurLabel.ContentStringFormat = $"{reservatie.AantalOverUur} * " + AantalOverUurLabel.ContentStringFormat;
-                OverUurPrijsTextBlock.Text = reservatie.OverUurPrijs.ToString();
+                OverUurPrijsTextBlock.Text = reservatie.OverUurPrijs.ToString() + "/h";
                 OverUurTotaalTextBlock.Text = (reservatie.OverUurPrijs * reservatie.OverUurPrijs).ToString();
             }
             if(reservatie.AantalNachtUur != 0)
             {
                 AantalNachtUrenLabel.ContentStringFormat = $"{reservatie.AantalNachtUur} * " + AantalNachtUrenLabel.ContentStringFormat;
-                NachtUurPrijsTextBlock.Text = reservatie.NachtUurPrijs.ToString();
+                NachtUurPrijsTextBlock.Text = reservatie.NachtUurPrijs.ToString() + "/h";
                 NachtUurTotaalTextBlock.Text = (reservatie.NachtUurPrijs * reservatie.AantalNachtUur).ToString();
             }
         }

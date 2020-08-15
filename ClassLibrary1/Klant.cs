@@ -25,5 +25,9 @@ namespace DomainLibrary
         public KlantenCategorie Categorie { get; set; }
         public string BtwNummer {get;set;}
         public string Adres { get; set; }
+        public override string ToString()
+        {
+            return Naam;
+        }
     }
 }

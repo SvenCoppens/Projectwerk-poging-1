@@ -48,16 +48,16 @@
         <Button x:Name="KlantZoekButton" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="0,5,0,0" Click="KlantZoekButton_Click">KlantNr Zoeken</Button>
 
         <Label Grid.Row="1" Grid.Column="6">Datum:</Label>
-        <DatePicker Name="DatePickerCalender" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="4"></DatePicker>
+        <DatePicker Name="DatePickerCalender" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="4" SelectedDateChanged="DatePickerCalender_SelectedDateChanged"></DatePicker>
 
         <Label Grid.Row="12" Grid.ColumnSpan="2">Type Arrengement:</Label>
         <ComboBox Name="ArrengementTypeList" Grid.Row="13" Grid.Column="2" Grid.ColumnSpan="2" SelectionChanged="ArrengementTypeList_SelectionChanged"></ComboBox>
 
         <Label Grid.Row="14">StartUur:</Label>
-        <ComboBox Name="BeschikbareUrenList" Grid.Row="15" Grid.Column="1"/>
+        <ComboBox Name="BeschikbareUrenList" Grid.Row="15" Grid.Column="1" SelectionChanged="Tijdstip_SelectionChanged"/>
 
         <Label Grid.Row="14" Grid.Column="2">Duur:</Label>
-        <ComboBox Name="DuurLijst" Grid.Row="15" Grid.Column="3"></ComboBox>
+        <ComboBox Name="DuurLijst" Grid.Row="15" Grid.Column="3" SelectionChanged="Tijdstip_SelectionChanged"></ComboBox>
 
         <Label Grid.Row="4" Grid.Column="0">Limousine:</Label>
         <DataGrid Name="DataGridLimousines" Grid.Row="5" Grid.Column="1" Grid.RowSpan="6" Grid.ColumnSpan="10" SelectionChanged="listBoxLimousines_SelectionChanged" AutoGenerateColumns="False" IsReadOnly="True">

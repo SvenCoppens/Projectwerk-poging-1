@@ -19,6 +19,10 @@ namespace DomainLibrary
         [Key]
         public string Naam { get; set; }
         public StaffelKorting StaffelKorting { get; set; }
-        public ICollection<Klant> Klanten { get; set; } 
+        public ICollection<Klant> Klanten { get; set; }
+        public override string ToString()
+        {
+            return Naam;
+        }
     }
 }

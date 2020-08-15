@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projectwerk_poging_1"
         mc:Ignorable="d"
-        Title="Reservatie_details" Height="700" Width="800">
+        Title="Reservatie_details" Height="700" Width="850">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -62,17 +62,17 @@
         <TextBlock Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2">ReserveringsNummer:</TextBlock>
         <TextBlock x:Name="ReserveringNummerTextBlock" Grid.Column="7" Grid.Row="2" Grid.ColumnSpan="2">*ReserveringsNummer*</TextBlock>
 
-        <Label Grid.Row="6" Grid.Column="0">Limousine:</Label>
+        <TextBlock Grid.Row="7" Grid.Column="0">Limousine:</TextBlock>
         <TextBlock Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Name="LimoNaamTextBlock">*Insert Limo*</TextBlock>
         
-        <Label Grid.Row="6" Grid.ColumnSpan="2" Grid.Column="5">Start Stalplaats:</Label>
-        <TextBlock x:Name="StartLocatieTextBlock" Grid.Column="7" Grid.Row="6" Grid.ColumnSpan="2"></TextBlock>
+        <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="5">Start Stalplaats:</TextBlock>
+        <TextBlock x:Name="StartLocatieTextBlock" Grid.Column="7" Grid.Row="7" Grid.ColumnSpan="2"></TextBlock>
 
-        <Label Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="5">Eind Stalplaats:</Label>
-        <TextBlock x:Name="EindLocatieTextBlock" Grid.Column="7" Grid.Row="7" Grid.ColumnSpan="2"></TextBlock>
+        <TextBlock Grid.Row="8" Grid.ColumnSpan="2" Grid.Column="5">Eind Stalplaats:</TextBlock>
+        <TextBlock x:Name="EindLocatieTextBlock" Grid.Column="7" Grid.Row="8" Grid.ColumnSpan="2"></TextBlock>
 
-        <Label Name="VerwachtAdresLabel" Grid.Row="8" Grid.Column="5" Grid.ColumnSpan="2">Verwacht adres:</Label>
-        <TextBlock x:Name="VerwachtAdresTextBlock" Grid.Row="9" Grid.Column="6" Grid.ColumnSpan="3"></TextBlock>
+        <TextBlock Name="VerwachtAdresLabel" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2">Verwacht adres:</TextBlock>
+        <TextBlock x:Name="VerwachtAdresTextBlock" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3"></TextBlock>
         
         <Border Grid.Row="9" Grid.RowSpan="10" Grid.ColumnSpan="4" BorderThickness="2" BorderBrush="Black"></Border>
         <Label Grid.Row="9">Vaste Kost:</Label>

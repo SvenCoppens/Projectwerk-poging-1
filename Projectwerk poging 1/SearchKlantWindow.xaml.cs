@@ -39,7 +39,7 @@ namespace Projectwerk_poging_1
         private void NaamSearchButton(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            List<Klant> klanten = rM.FindKlantVoorBtwNummer(BtwNummerTextBox.Text);
+            List<Klant> klanten = rM.FindKlantVoorNaam(KlantNaamTextBox.Text);
             SetDataGridSource(klanten);
         }
         private void SetDataGridSource(List<Klant> klanten)

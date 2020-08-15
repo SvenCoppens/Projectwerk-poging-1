@@ -13,13 +13,15 @@ namespace DomainLibrary
         public Reservatie(Klant klant,DateTime startDatum,Arrengement arrengement,int startUur,int aantalUur,Limousine limo,DateTime datumVanAanmaakReservatie,
             StalLocatie startStalLocatie,StalLocatie aankomstStalLocatie, string verwachtAdres,double aangerekendeKorting)
         {
+            StartMoment = startDatum.AddHours(startUur);
+            if (StartMoment<datumVanAanmaakReservatie)
+                throw new IncorrectParameterException("Er mag geen reservatie in het verleden worden aangemaakt.");
             Klant = klant;
             DatumVanReservering = datumVanAanmaakReservatie;
            // ReserveringsNummer = reservatieNummer;
             Limousine = limo;
             StartStalLocatie = startStalLocatie;
             AankomstStalLocatie = aankomstStalLocatie;
-            StartMoment = startDatum.AddHours(startUur);
             Arrengement = arrengement;
             AantalUur = aantalUur;
             AangerekendeKorting = aangerekendeKorting;
@@ -133,14 +135,18 @@ namespace DomainLibrary
                 TotaalMetKortingExclusiefBtw += AantalStandaardUur * StandaarUurPrijs;
                 TotaalMetKortingExclusiefBtw += AantalNachtUur * NachtUurPrijs;
 
-                TotaalMetKortingExclusiefBtw = TotaalMetKortingExclusiefBtw * (1 - (AangerekendeKorting / 100));
+                TotaalMetKortingExclusiefBtw = Math.Round(TotaalMetKortingExclusiefBtw * (1 - (AangerekendeKorting / 100))*100)/100;
             }
             else
             {
                 throw new NotImplementedException("New Arrengement is not properly implemented.");
             }
-            BtwBedrag = TotaalMetKortingExclusiefBtw * btwPercentage;
+            BtwBedrag = Math.Round((TotaalMetKortingExclusiefBtw * btwPercentage) *100)/100;
             TotaalTeBetalen = (TotaalMetKortingExclusiefBtw + BtwBedrag);
+        }
+        public override string ToString()
+        {
+            return $"Reservatie nr: {ReserveringsNummer}, op naam van {Klant.Naam}, op {StartMoment}, met {Limousine.Naam}";
         }
     }
 }

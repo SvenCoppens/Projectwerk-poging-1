@@ -71,7 +71,7 @@ namespace DomainLibrary
         //    Handler.AddKlant(new Klant(klantNummer,naam,categorie,btw,adres));
 
         //}
-        public void ReservatieMaken(int klantNr,DateTime startDatum,Arrengement arrengement, int startUur,int duur,Limousine limo, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
+        public Reservatie ReservatieMakenEnReturnen(int klantNr,DateTime startDatum,Arrengement arrengement, int startUur,int duur,Limousine limo, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
         {
             Klant klant = FindKlantVoorKlantNummer(klantNr);
             //int reservatieNummer = GetNewReservatieNummer();
@@ -80,6 +80,18 @@ namespace DomainLibrary
             if(klant.Categorie.StaffelKorting!=null)
                 korting = BerekenKortingsPercentage(klant,startDatum);
             Reservatie res = new Reservatie(klant, startDatum, arrengement, startUur, duur,limo, DateTime.Now, startStalLocatie, aankomstStalLocatie, verwachtAdres,korting);
+            AddReservatie(res);
+            return res;
+        }
+        public void ReservatieMakenZonderReturnen(int klantNr, DateTime startDatum, Arrengement arrengement, int startUur, int duur, Limousine limo, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
+        {
+            Klant klant = FindKlantVoorKlantNummer(klantNr);
+            //int reservatieNummer = GetNewReservatieNummer();
+            limo = FindLimousineVoorId(limo.Id);
+            double korting = 0;
+            if (klant.Categorie.StaffelKorting != null)
+                korting = BerekenKortingsPercentage(klant, startDatum);
+            Reservatie res = new Reservatie(klant, startDatum, arrengement, startUur, duur, limo, DateTime.Now, startStalLocatie, aankomstStalLocatie, verwachtAdres, korting);
             AddReservatie(res);
         }
 

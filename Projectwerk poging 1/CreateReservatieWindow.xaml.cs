@@ -28,32 +28,14 @@ namespace Projectwerk_poging_1
             EindLocatieComboBox.ItemsSource = Enum.GetValues(typeof(StalLocatie)).Cast<StalLocatie>().ToList();
             ArrengementTypeList.ItemsSource = Enum.GetValues(typeof(Arrengement)).Cast<Arrengement>().ToList();
             ArrengementTypeList.SelectedIndex = 0;
+            StartLocatieComboBox.SelectedIndex = 0;
+            EindLocatieComboBox.SelectedIndex = 0;
             DatePickerCalender.SelectedDate = DateTime.Today;
         }
 
         private void BeschikbaarheidCheckButton_Click(object sender, RoutedEventArgs e)
         {
-            ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            DateTime start = (DateTime)DatePickerCalender.SelectedDate;
-            start = start.AddHours((int)BeschikbareUrenList.SelectedItem);
-            DateTime eind = start.AddHours((int)DuurLijst.SelectedItem);
-            List<Limousine> limousines = rM.GetBeschikbareLimousines(start, eind);
-            Arrengement arrengement = (Arrengement)ArrengementTypeList.SelectedItem;
-            if (arrengement == Arrengement.NightLife)
-            {
-                limousines = limousines.Where(l => l.NightlifePrijs != null).ToList();
-            }
-            else if(arrengement == Arrengement.Wedding)
-            {
-                limousines = limousines.Where(l => l.WeddingPrijs != null).ToList();
-            }
-            else if (arrengement == Arrengement.Wellness)
-            {
-                limousines = limousines.Where(l => l.WellnessPrijs != null).ToList();
-            }
-            
-            DataGridLimousines.ItemsSource = null; ;
-            DataGridLimousines.ItemsSource = limousines;
+            UpdateLimousines();
         }
 
         private void KlantZoekButton_Click(object sender, RoutedEventArgs e)
@@ -65,21 +47,32 @@ namespace Projectwerk_poging_1
 
         private void ReservatieAanmakenButton_Click(object sender, RoutedEventArgs e)
         {
-            int klantNr = int.Parse(KlantNrTextBox.Text);
-            DateTime startDatum = (DateTime)DatePickerCalender.SelectedDate;
-            Arrengement arrengement = (Arrengement)ArrengementTypeList.SelectedItem;
-            int startUur = (int)BeschikbareUrenList.SelectedItem;
-            int duur = (int)DuurLijst.SelectedItem;
-            Limousine limo = (Limousine)DataGridLimousines.SelectedItem;
-            string verwachtAdres = VerwachtAdresTextBox.Text;
-            StalLocatie EindStalPlaats = (StalLocatie)EindLocatieComboBox.SelectedItem;
-            StalLocatie StartStalPlaats = (StalLocatie)StartLocatieComboBox.SelectedItem;
-            ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            rM.ReservatieMaken(klantNr, startDatum, arrengement, startUur, duur, limo, StartStalPlaats, EindStalPlaats, verwachtAdres);
+            if (KlantNrTextBox.Text != null && DataGridLimousines.SelectedItem != null)
+            {
+                int klantNr = int.Parse(KlantNrTextBox.Text);
+                DateTime startDatum = (DateTime)DatePickerCalender.SelectedDate;
+                Arrengement arrengement = (Arrengement)ArrengementTypeList.SelectedItem;
+                int startUur = (int)BeschikbareUrenList.SelectedItem;
+                int duur = (int)DuurLijst.SelectedItem;
+                Limousine limo = (Limousine)DataGridLimousines.SelectedItem;
+                string verwachtAdres = VerwachtAdresTextBox.Text;
+                StalLocatie EindStalPlaats = (StalLocatie)EindLocatieComboBox.SelectedItem;
+                StalLocatie StartStalPlaats = (StalLocatie)StartLocatieComboBox.SelectedItem;
+                ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
+                Reservatie toShow = rM.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limo, StartStalPlaats, EindStalPlaats, verwachtAdres);
+
+                ReservatieDetailsWindow detailsWindow = new ReservatieDetailsWindow(toShow);
+                detailsWindow.Show();
+                this.Close();
+            }
+            else
+                MessageBox.Show("Gelieve een klantenNummer in te vullen en een voertuig te selecteren.", "Onvolledige reservering", MessageBoxButton.OK);
+            
         }
 
         private void ArrengementTypeList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            DataGridLimousines.ItemsSource = null;
             string geselecteerdArrengement =((ComboBox)sender).SelectedItem.ToString();
             if (geselecteerdArrengement != null)
             {
@@ -131,6 +124,40 @@ namespace Projectwerk_poging_1
         private void listBoxLimousines_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void Tijdstip_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGridLimousines.ItemsSource = null;
+        }
+
+        private void DatePickerCalender_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGridLimousines.ItemsSource = null;
+        }
+        private void UpdateLimousines()
+        {
+            ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
+            DateTime start = (DateTime)DatePickerCalender.SelectedDate;
+            start = start.AddHours((int)BeschikbareUrenList.SelectedItem);
+            DateTime eind = start.AddHours((int)DuurLijst.SelectedItem);
+            List<Limousine> limousines = rM.GetBeschikbareLimousines(start, eind);
+            Arrengement arrengement = (Arrengement)ArrengementTypeList.SelectedItem;
+            if (arrengement == Arrengement.NightLife)
+            {
+                limousines = limousines.Where(l => l.NightlifePrijs != null).ToList();
+            }
+            else if (arrengement == Arrengement.Wedding)
+            {
+                limousines = limousines.Where(l => l.WeddingPrijs != null).ToList();
+            }
+            else if (arrengement == Arrengement.Wellness)
+            {
+                limousines = limousines.Where(l => l.WellnessPrijs != null).ToList();
+            }
+
+            DataGridLimousines.ItemsSource = null; ;
+            DataGridLimousines.ItemsSource = limousines;
         }
     }
 }
