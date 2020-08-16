@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainLibrary", "ClassLibra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{B5AD7E5F-147A-404C-AFA5-B20868E13373}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReservatieTests", "ReservatieTests\ReservatieTests.csproj", "{F22002CF-9507-42F8-9E1E-8FE2A0428E14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B5AD7E5F-147A-404C-AFA5-B20868E13373}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5AD7E5F-147A-404C-AFA5-B20868E13373}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5AD7E5F-147A-404C-AFA5-B20868E13373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F22002CF-9507-42F8-9E1E-8FE2A0428E14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F22002CF-9507-42F8-9E1E-8FE2A0428E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F22002CF-9507-42F8-9E1E-8FE2A0428E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F22002CF-9507-42F8-9E1E-8FE2A0428E14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

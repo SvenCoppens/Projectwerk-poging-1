@@ -43,8 +43,15 @@ namespace DomainLibrary
                     staffelKorting = Handler.VindStaffelKortingVoorNaam("planner");
                 else
                     staffelKorting = Handler.VindStaffelKortingVoorNaam(klantenCategorie);
-                if(staffelKorting==null)
+                if (staffelKorting == null)
+                {
                     staffelKorting = Handler.VindStaffelKortingVoorNaam("geen");
+                    if (staffelKorting == null)
+                    {
+                        VoegStaffelKortingToe("geen", new List<int> { 0 }, new List<double> { 0 });
+                        staffelKorting = Handler.VindStaffelKortingVoorNaam("geen");
+                    }
+                } 
                 categorie = new KlantenCategorie(klantenCategorie,staffelKorting);
                 Handler.VoegKlantenCategorieToe(categorie);
             }
@@ -55,25 +62,9 @@ namespace DomainLibrary
             StaffelKorting staffelKorting = new StaffelKorting(naam, breekpunten, kortingsPercentages);
             Handler.VoegStaffelKortingToe(staffelKorting);
         }
-        //public void AddKlant(string naam,KlantenCategorie categorie,string btw,string adres, int klantNummer = 0)
-        //{
-        //    if (klantNummer == 0)
-        //    {
-        //        klantNummer = Handler.GetNewKlantNummer();
-        //    }
-        //    //else
-        //    //{
-        //    //    if (Handler.BestaatKlantNummer(klantNummer))
-        //    //    {
-        //    //        throw new IncorrectParameterException("klantnummer was een ongeldige waarde");
-        //    //    }
-        //    //}
-        //    Handler.AddKlant(new Klant(klantNummer,naam,categorie,btw,adres));
-
-        //}
         public Reservatie ReservatieMakenEnReturnen(int klantNr,DateTime startDatum,Arrengement arrengement, int startUur,int duur,Limousine limo, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
         {
-            Klant klant = FindKlantVoorKlantNummer(klantNr);
+            Klant klant = VindVolledigeKlantVoorKlantNummer(klantNr);
             //int reservatieNummer = GetNewReservatieNummer();
             limo = FindLimousineVoorId(limo.Id);
             double korting = 0;
@@ -85,7 +76,7 @@ namespace DomainLibrary
         }
         public void ReservatieMakenZonderReturnen(int klantNr, DateTime startDatum, Arrengement arrengement, int startUur, int duur, Limousine limo, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
         {
-            Klant klant = FindKlantVoorKlantNummer(klantNr);
+            Klant klant = VindVolledigeKlantVoorKlantNummer(klantNr);
             //int reservatieNummer = GetNewReservatieNummer();
             limo = FindLimousineVoorId(limo.Id);
             double korting = 0;
@@ -152,7 +143,7 @@ namespace DomainLibrary
         {
             return Handler.FindKlantVoorNaam(naam);
         }
-        public Klant FindKlantVoorKlantNummer(int klantNummer)
+        public Klant VindVolledigeKlantVoorKlantNummer(int klantNummer)
         {
             return Handler.FindVolledigeKlantVoorKlantNummer(klantNummer);
         }

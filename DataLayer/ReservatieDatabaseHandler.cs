@@ -16,7 +16,7 @@ namespace DataLayer
         public DbSet<Reservatie> Reservaties { get; set; }
         public DbSet<KlantenCategorie> KlantenCategorieen { get; set; }
         public DbSet<StaffelKorting> StaffelKortingen { get; set; }
-        private string _connectionString;
+        protected string _connectionString;
         public ReservatieDatabaseHandler(string db = "Production") : base()
         {
             Dictionary<string, string> connectionStrings = new Dictionary<string, string>();
@@ -110,8 +110,16 @@ namespace DataLayer
         }
         public int GetNewKlantNummer()
         {
-            int HoogsteGetal = Klanten.OrderByDescending(x => x.KlantNummer).First().KlantNummer;
-            return HoogsteGetal++;
+            int hoogsteGetal;
+            try
+            {
+                hoogsteGetal = Klanten.OrderByDescending(x => x.KlantNummer).First().KlantNummer;
+            }
+            catch (InvalidOperationException)
+            {
+                hoogsteGetal = 0;
+            }
+            return ++hoogsteGetal;
         }
         public int GetNewReserveringsNummer()
         {
@@ -150,11 +158,6 @@ namespace DataLayer
         {
             return Klanten.Include(k=>k.Categorie).ThenInclude(c=>c.StaffelKorting).SingleOrDefault(k=>k.KlantNummer==klantNummer);
         }
-        //public int GetNewReservatieNummer()
-        //{
-        //    var temp = Reservaties.OrderByDescending(r => r.ReserveringsNummer);
-        //    return temp.First().ReserveringsNummer + 1;
-        //}
         public int GetAantalReservatiesVoorKlantInJaar(Klant klant, int jaar)
         {
             return Reservaties.Where(r => r.Klant == klant && r.StartMoment.Year == jaar).Count();

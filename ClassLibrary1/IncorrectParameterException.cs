@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DomainLibrary
 {
-    class IncorrectParameterException : Exception    
+    public class IncorrectParameterException : Exception    
     {
         public IncorrectParameterException(string message) : base(message)
         {

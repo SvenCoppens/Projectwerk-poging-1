@@ -39,16 +39,18 @@ namespace DomainLibrary
         }
         public void SetKortingen(List<int> breekPunten, List<double> kortingPercentages)
         {
+            if (breekPunten.Count== 0 || kortingPercentages.Count == 0)
+                throw new IncorrectParameterException("KortingsPercentages mag geen lege Lijsten ontvangen, moet minstens het beginpunt van 0 met 0% korting bevatten");
             if (breekPunten.Count != kortingPercentages.Count)
-                throw new Exception("Aantal kortingsPercentages komt niet overeen met het aantal breekpunten");
+                throw new IncorrectParameterException("Aantal kortingsPercentages komt niet overeen met het aantal breekpunten");
             if (breekPunten[0] != 0)
-                throw new Exception("Eerste breekpunt moet 0 zijn!");
+                throw new IncorrectParameterException("Eerste breekpunt moet 0 zijn!");
             for(int i = 1; i < kortingPercentages.Count; i++)
             {
                 if (kortingPercentages[i] <= kortingPercentages[i - 1])
-                    throw new Exception("KortingsPercentages moeten groter zijn dan de vorige korting");
+                    throw new IncorrectParameterException("KortingsPercentages moeten groter zijn dan de vorige korting");
                 if(breekPunten[i]<=breekPunten[i-1])
-                    throw new Exception("Breekpunten moeten groter zijn dan het vorige breekPunt");
+                    throw new IncorrectParameterException("Breekpunten moeten groter zijn dan het vorige breekPunt");
             }
             string kortingen = "";
             for(int i = 0; i < breekPunten.Count; i++)
