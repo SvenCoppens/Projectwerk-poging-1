@@ -31,42 +31,54 @@ namespace DomainLibrary
             }
             KlantenCategorie categorie = null;  
 
-            //if (klantenCategorie.Contains("planner"))
-            //    categorie = Handler.VindKlantenCategorieVoorNaam("planner");
-            //else
-                categorie= Handler.VindKlantenCategorieVoorNaam(klantenCategorie);
+            categorie= VindKlantenCategorieVoorNaam(klantenCategorie);
 
             if (categorie == null)
             {
-                StaffelKorting staffelKorting = null;
-                if (klantenCategorie.Contains("planner"))
+                VoegKlantenCategorieToe(klantenCategorie);
+                categorie = VindKlantenCategorieVoorNaam(klantenCategorie);
+            }
+            Handler.AddKlant(new Klant(klantNummer, naam, categorie, btw, adres));
+        }
+        public KlantenCategorie VindKlantenCategorieVoorNaam(string klantenCategorie)
+        {
+            return Handler.VindKlantenCategorieVoorNaam(klantenCategorie);
+        }
+        public void VoegKlantenCategorieToe(string naam)
+        {
+            StaffelKorting staffelKorting = Handler.VindStaffelKortingVoorNaam(naam);
+            if (staffelKorting == null)
+            {
+                if (naam.Contains("planner"))
                     staffelKorting = Handler.VindStaffelKortingVoorNaam("planner");
-                else
-                    staffelKorting = Handler.VindStaffelKortingVoorNaam(klantenCategorie);
-                if (staffelKorting == null)
-                {
+                else 
+                { 
                     staffelKorting = Handler.VindStaffelKortingVoorNaam("geen");
                     if (staffelKorting == null)
                     {
                         VoegStaffelKortingToe("geen", new List<int> { 0 }, new List<double> { 0 });
-                        staffelKorting = Handler.VindStaffelKortingVoorNaam("geen");
+                        staffelKorting = VindStaffelKortingVoorNaam("geen");
                     }
-                } 
-                categorie = new KlantenCategorie(klantenCategorie,staffelKorting);
-                Handler.VoegKlantenCategorieToe(categorie);
+                }
             }
-            Handler.AddKlant(new Klant(klantNummer, naam, categorie, btw, adres));
+            KlantenCategorie categorie = new KlantenCategorie(naam, staffelKorting);
+            Handler.VoegKlantenCategorieToe(categorie);
         }
+        public StaffelKorting VindStaffelKortingVoorNaam(string StaffelKortingNaam)
+        {
+            return Handler.VindStaffelKortingVoorNaam(StaffelKortingNaam);
+        }
+
         public void VoegStaffelKortingToe(string naam, List<int> breekpunten, List<double> kortingsPercentages)
         {
             StaffelKorting staffelKorting = new StaffelKorting(naam, breekpunten, kortingsPercentages);
             Handler.VoegStaffelKortingToe(staffelKorting);
         }
-        public Reservatie ReservatieMakenEnReturnen(int klantNr,DateTime startDatum,Arrengement arrengement, int startUur,int duur,Limousine limo, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
+        public Reservatie ReservatieMakenEnReturnen(int klantNr,DateTime startDatum,Arrengement arrengement, int startUur,int duur,int limoId, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
         {
             Klant klant = VindVolledigeKlantVoorKlantNummer(klantNr);
             //int reservatieNummer = GetNewReservatieNummer();
-            limo = FindLimousineVoorId(limo.Id);
+            Limousine limo = FindLimousineVoorId(limoId);
             double korting = 0;
             if(klant.Categorie.StaffelKorting!=null)
                 korting = BerekenKortingsPercentage(klant,startDatum);
@@ -74,16 +86,20 @@ namespace DomainLibrary
             AddReservatie(res);
             return res;
         }
-        public void ReservatieMakenZonderReturnen(int klantNr, DateTime startDatum, Arrengement arrengement, int startUur, int duur, Limousine limo, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
+        public void ReservatieMakenZonderReturnen(int klantNr, DateTime startDatum, Arrengement arrengement, int startUur, int duur, int limoId, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
         {
             Klant klant = VindVolledigeKlantVoorKlantNummer(klantNr);
             //int reservatieNummer = GetNewReservatieNummer();
-            limo = FindLimousineVoorId(limo.Id);
+            Limousine limo = FindLimousineVoorId(limoId);
             double korting = 0;
             if (klant.Categorie.StaffelKorting != null)
                 korting = BerekenKortingsPercentage(klant, startDatum);
             Reservatie res = new Reservatie(klant, startDatum, arrengement, startUur, duur, limo, DateTime.Now, startStalLocatie, aankomstStalLocatie, verwachtAdres, korting);
             AddReservatie(res);
+        }
+        public Reservatie VindReservatieVoorReservatieNummer(int reservatieNummer)
+        {
+            return Handler.VindReservatieVoorReservatieNummer(reservatieNummer);
         }
 
         public Limousine FindLimousineVoorId(int id)
@@ -105,6 +121,8 @@ namespace DomainLibrary
         }
         public List<Limousine> GetBeschikbareLimousines(DateTime start, DateTime eind)
         {
+            if (eind <= start)
+                throw new IncorrectParameterException("Eind van een zoekperiode mag niet voor het begin vallen");
             List<Limousine> limousines = Handler.GetLimousinesWithReservaties();
 
             List<Limousine> result = new List<Limousine>();
@@ -115,19 +133,17 @@ namespace DomainLibrary
                     result.Add(limo);
                 }
                 else {
-                    bool beschikbaar = false;
+                    bool beschikbaar = true;
 
                     limo.Reservaties.OrderBy(x => x.StartMoment);
                     foreach (Reservatie res in limo.Reservaties)
                     {
                         //beginuur nieuwe reservatie mag niet vallen tussen: beginuur reservatie en 6u na einduur reservatie
-                        if (!(start > res.StartMoment && start < res.StartMoment.AddHours(res.AantalUur + 6)))
-                        {
-                            if (eind < res.StartMoment.AddHours(-6))
-                                beschikbaar = true;
-                            else beschikbaar = false;
-                        }
-                        else beschikbaar = false;
+                        if (start > res.StartMoment.AddHours(-6) && start < res.StartMoment.AddHours(res.AantalUur + 6))
+                            beschikbaar = false;
+                        //zelde voor het eindUur
+                        else if (eind > res.StartMoment.AddHours(-6) && eind < res.StartMoment.AddHours(res.AantalUur + 6))
+                            beschikbaar = false;
                     }
                     if (beschikbaar)
                         result.Add(limo);
@@ -135,7 +151,7 @@ namespace DomainLibrary
             }
             return result;
         }
-        public List<Klant> FindKlantVoorBtwNummer(string btwNummer)
+        public Klant FindKlantVoorBtwNummer(string btwNummer)
         {
             return Handler.FindKlantVoorBtwNummer(btwNummer);
         }
@@ -167,10 +183,6 @@ namespace DomainLibrary
         {
             return Handler.FindReservatieDetailsVoorKlantNummerEnDatum(klantNummer, datum);
         }
-        //public int GetNewReservatieNummer()
-        //{
-        //    return Handler.GetNewReservatieNummer();
-        //}
         public int GetAantalReservatiesVoorKlantInJaar(Klant klant,int jaar)
         {
             return Handler.GetAantalReservatiesVoorKlantInJaar(klant, jaar);

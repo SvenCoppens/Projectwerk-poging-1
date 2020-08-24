@@ -32,7 +32,8 @@ namespace Projectwerk_poging_1
         private void BtwSearchButton(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            List<Klant> klanten = rM.FindKlantVoorBtwNummer(BtwNummerTextBox.Text);
+            Klant klant = rM.FindKlantVoorBtwNummer(BtwNummerTextBox.Text);
+            List<Klant> klanten = new List<Klant> { klant };
             SetDataGridSource(klanten);
         }
 

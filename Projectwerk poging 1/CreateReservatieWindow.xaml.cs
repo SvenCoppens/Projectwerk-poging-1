@@ -54,12 +54,12 @@ namespace Projectwerk_poging_1
                 Arrengement arrengement = (Arrengement)ArrengementTypeList.SelectedItem;
                 int startUur = (int)BeschikbareUrenList.SelectedItem;
                 int duur = (int)DuurLijst.SelectedItem;
-                Limousine limo = (Limousine)DataGridLimousines.SelectedItem;
+                int limoId = ((Limousine)DataGridLimousines.SelectedItem).Id;
                 string verwachtAdres = VerwachtAdresTextBox.Text;
                 StalLocatie EindStalPlaats = (StalLocatie)EindLocatieComboBox.SelectedItem;
                 StalLocatie StartStalPlaats = (StalLocatie)StartLocatieComboBox.SelectedItem;
                 ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-                Reservatie toShow = rM.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limo, StartStalPlaats, EindStalPlaats, verwachtAdres);
+                Reservatie toShow = rM.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, StartStalPlaats, EindStalPlaats, verwachtAdres);
 
                 ReservatieDetailsWindow detailsWindow = new ReservatieDetailsWindow(toShow);
                 detailsWindow.Show();

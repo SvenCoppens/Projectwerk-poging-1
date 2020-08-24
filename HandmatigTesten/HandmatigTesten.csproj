@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\DomainLibrary.csproj" />
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
+    <ProjectReference Include="..\Projectwerk poging 1\Projectwerk poging 1.csproj" />
+    <ProjectReference Include="..\ReservatieTests\ReservatieTests.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -68,10 +68,6 @@ namespace DataLayer
             Reservaties.Add(reservatie);
             SaveChanges();
         }
-        public bool BestaatKlantNummer(int klantNummer)
-        {
-            return Klanten.Any(x => x.KlantNummer == klantNummer);
-        }   //mag mogenlijks weg?
         public int GetAantalKlanten()
         {
             return Klanten.Count();
@@ -121,14 +117,12 @@ namespace DataLayer
             }
             return ++hoogsteGetal;
         }
-        public int GetNewReserveringsNummer()
+        public Klant FindKlantVoorBtwNummer(string btwNummer)
         {
-            int huidigReserveringsNummer = Reservaties.OrderByDescending(x => x.ReserveringsNummer).First().ReserveringsNummer;
-            return huidigReserveringsNummer++;
-        }
-        public List<Klant> FindKlantVoorBtwNummer(string btwNummer)
-        {
-            return Klanten.Where(k => k.BtwNummer == btwNummer).ToList();
+            var find = Klanten.Where(k => k.BtwNummer == btwNummer);
+            if (find != null && find.Count() != 0)
+                return find.First();
+            else return null;
         }
         public List<Klant> FindKlantVoorNaam(string naam)
         {
@@ -173,10 +167,10 @@ namespace DataLayer
             return KlantenCategorieen.Find(klantenCategorie);
         }
 
-        public StaffelKorting VindStaffelKortingVoorNaam(string naam)
+        public StaffelKorting VindStaffelKortingVoorNaam(string StaffelKortingNaam)
         {
-            var find = StaffelKortingen.Where(r => r.Naam == naam);
-            if (find != null && find.Count()>0)
+            var find = StaffelKortingen.Where(r => r.Naam == StaffelKortingNaam);
+            if (find != null && find.Count()!=0)
                 return find.First();
             else return null;
         }
@@ -184,11 +178,17 @@ namespace DataLayer
         public void VoegStaffelKortingToe(StaffelKorting staffelKorting)
         {
             StaffelKortingen.Add(staffelKorting);
+            SaveChanges();
         }
 
         public void VoegKlantenCategorieToe(KlantenCategorie categorie)
         {
             KlantenCategorieen.Add(categorie);
+        }
+
+        public Reservatie VindReservatieVoorReservatieNummer(int reservatieNummer)
+        {
+            return Reservaties.Find(reservatieNummer);
         }
     }
 }
