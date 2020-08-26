@@ -47,6 +47,8 @@ namespace Projectwerk_poging_1
         {
             KlantDataGrid.ItemsSource = null;
             KlantDataGrid.ItemsSource = klanten;
+            if (klanten.Count == 0)
+                MessageBox.Show("Geen resultaten gevonden.", "No results", MessageBoxButton.OK);
         }
     }
 }

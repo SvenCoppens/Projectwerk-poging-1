@@ -40,7 +40,7 @@
         <TextBox x:Name="BtwNummerTextBox" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2"></TextBox>
         <Button Grid.Row="3" Grid.Column="4" Margin="5,0,5,0" Click="BtwSearchButton">Zoek op BTWNr</Button>
 
-        <DataGrid Name="KlantDataGrid" Grid.Row="5" Grid.ColumnSpan="6" Grid.RowSpan="5" Margin="5,0,5,0"></DataGrid>
+        <DataGrid Name="KlantDataGrid" Grid.Row="5" Grid.ColumnSpan="6" Grid.RowSpan="5" Margin="5,0,5,0" IsReadOnly="True"></DataGrid>
         <Button Grid.Row="11" Grid.RowSpan="2" Grid.ColumnSpan="3" Grid.Column="2" Click="ClipboardButton_Click">Kopieer geselecteerde klantNummer naar Clipboard</Button>
     </Grid>
 </Window>

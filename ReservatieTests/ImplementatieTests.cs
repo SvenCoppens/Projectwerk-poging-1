@@ -193,7 +193,7 @@ namespace DataLayer.Tests
             int limoId = 1;
             DateTime startDatum = new DateTime(2100, 8, 12);
             Arrengement arrengement = Arrengement.NightLife;
-            int startUur = 17;
+            int startUur = 22;
             int duur = 10;
             StalLocatie stalLocatie = StalLocatie.Antwerpen;
             StalLocatie eindLocatie= StalLocatie.Gent;
@@ -265,7 +265,7 @@ namespace DataLayer.Tests
             int klantNr = 1;
             int limoId = 1;
             DateTime startDatum = new DateTime(2100, 8, 12);
-            Arrengement arrengement = Arrengement.NightLife;
+            Arrengement arrengement = Arrengement.Business;
             int startUur = 7;
             int duur = 3;
             StalLocatie stalLocatie = StalLocatie.Antwerpen;
@@ -276,7 +276,7 @@ namespace DataLayer.Tests
             int klantNr2 = 1;
             int limoId2 = 2;
             DateTime startDatum2 = new DateTime(2100, 8, 12);
-            Arrengement arrengement2 = Arrengement.NightLife;
+            Arrengement arrengement2 = Arrengement.Airport;
             int startUur2 = 13;
             int duur2 = 7;
             StalLocatie stalLocatie2 = StalLocatie.Antwerpen;
@@ -410,8 +410,8 @@ namespace DataLayer.Tests
             int limoId = 1;
             DateTime startDatum = new DateTime(2100, 8, 13);
             Arrengement arrengement = Arrengement.NightLife;
-            int startUur = 7;
-            int duur = 3;
+            int startUur = 22;
+            int duur = 9;
             StalLocatie stalLocatie = StalLocatie.Antwerpen;
             StalLocatie eindLocatie = StalLocatie.Gent;
             string verwachtAdres = "testAdres1 25 testGemeente";
@@ -421,7 +421,7 @@ namespace DataLayer.Tests
             int limoId2 = 1;
             DateTime startDatum2 = new DateTime(2100, 8, 12);
             Arrengement arrengement2 = Arrengement.NightLife;
-            int startUur2 = 13;
+            int startUur2 = 22;
             int duur2 = 7;
             StalLocatie stalLocatie2 = StalLocatie.Antwerpen;
             StalLocatie eindLocatie2 = StalLocatie.Gent;
@@ -432,7 +432,7 @@ namespace DataLayer.Tests
             int limoId3 = 1;
             DateTime startDatum3 = new DateTime(2100, 8, 14);
             Arrengement arrengement3 = Arrengement.NightLife;
-            int startUur3 = 13;
+            int startUur3 = 22;
             int duur3 = 7;
             StalLocatie stalLocatie3 = StalLocatie.Antwerpen;
             StalLocatie eindLocatie3 = StalLocatie.Gent;
@@ -480,8 +480,8 @@ namespace DataLayer.Tests
             int limoId = 1;
             DateTime startDatum = new DateTime(2100, 8, 13);
             Arrengement arrengement = Arrengement.NightLife;
-            int startUur = 7;
-            int duur = 3;
+            int startUur = 22;
+            int duur = 9;
             StalLocatie stalLocatie = StalLocatie.Antwerpen;
             StalLocatie eindLocatie = StalLocatie.Gent;
             string verwachtAdres = "testAdres1 25 testGemeente";
@@ -491,7 +491,7 @@ namespace DataLayer.Tests
             int limoId2 = 1;
             DateTime startDatum2 = new DateTime(2100, 8, 13);
             Arrengement arrengement2 = Arrengement.NightLife;
-            int startUur2 = 18;
+            int startUur2 = 22;
             int duur2 = 7;
             StalLocatie stalLocatie2 = StalLocatie.Antwerpen;
             StalLocatie eindLocatie2 = StalLocatie.Gent;
@@ -502,7 +502,7 @@ namespace DataLayer.Tests
             int limoId3 = 1;
             DateTime startDatum3 = new DateTime(2100, 8, 14);
             Arrengement arrengement3 = Arrengement.NightLife;
-            int startUur3 = 13;
+            int startUur3 = 22;
             int duur3 = 7;
             StalLocatie stalLocatie3 = StalLocatie.Antwerpen;
             StalLocatie eindLocatie3 = StalLocatie.Gent;
@@ -513,7 +513,7 @@ namespace DataLayer.Tests
             Assert.IsTrue(result.Count == 2);
             result = rm.FindReservatieDetailsVoorKlantNaamEnDatum(klantNaam2, startDatum);
             Assert.IsTrue(result.Count == 1);
-            result = rm.FindReservatieDetailsVoorKlantNaamEnDatum(klantNaam2,startDatum3);
+            result = rm.FindReservatieDetailsVoorKlantNaamEnDatum(klantNaam3,startDatum3);
             Assert.IsTrue(result.Count == 0);
 
         }

@@ -120,12 +120,6 @@ namespace Projectwerk_poging_1
                 }
             }
         }
-
-        private void listBoxLimousines_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void Tijdstip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGridLimousines.ItemsSource = null;
@@ -158,6 +152,8 @@ namespace Projectwerk_poging_1
 
             DataGridLimousines.ItemsSource = null; ;
             DataGridLimousines.ItemsSource = limousines;
+            if (limousines.Count == 0)
+                MessageBox.Show("Geen resultaten gevonden.", "No results", MessageBoxButton.OK);
         }
     }
 }

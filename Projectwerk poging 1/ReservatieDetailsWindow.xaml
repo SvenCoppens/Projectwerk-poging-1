@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projectwerk_poging_1"
         mc:Ignorable="d"
-        Title="Reservatie_details" Height="700" Width="850">
+        Title="Reservatie_details" Height="700" Width="1250">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

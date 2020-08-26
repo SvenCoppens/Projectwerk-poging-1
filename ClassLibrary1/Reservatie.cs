@@ -13,6 +13,36 @@ namespace DomainLibrary
         public Reservatie(Klant klant,DateTime startDatum,Arrengement arrengement,int startUur,int aantalUur,Limousine limo,DateTime datumVanAanmaakReservatie,
             StalLocatie startStalLocatie,StalLocatie aankomstStalLocatie, string verwachtAdres,double aangerekendeKorting)
         {
+            if (startDatum.Hour != 0)
+                throw new IncorrectParameterException("Startdatum werd niet correct geleverd: mag geen uur bevatten, dit wordt in de startuur parameter geleverd");
+            if (startDatum.Minute != 0)
+                throw new IncorrectParameterException("Startdatum mag  geen minuten bevatten: Reservaties beginnen altijd op het uur");
+            if (startUur < 0 || aantalUur < 0)
+                throw new IncorrectParameterException("Startuur en aantal uur mogen niet negatief zijn");
+            if (aantalUur > 11 || aantalUur==0)
+                throw new IncorrectParameterException("Elk arrengement moet minstens 1u duren en mag niet langer duren dan 11u");
+            //business regels
+            if(arrengement==Arrengement.Wellness)
+            {
+                if (aantalUur != 10)
+                    throw new IncorrectParameterException("Een wellness arrengement duurt altijd 10u");
+                if (startUur > 12 || startUur < 7)
+                    throw new IncorrectParameterException("Een wellness arrengement begint altijd tussen 7 en 12u");
+            }
+            else if (arrengement == Arrengement.NightLife)
+            {
+                if (aantalUur <7)
+                    throw new IncorrectParameterException("Een nightlife arrengement duurt altijd minstens 7u");
+                if (startUur < 20 && startUur!=0)
+                    throw new IncorrectParameterException("Een nightlife arrengement begint altijd tussen 20 en 24u");
+            }
+            else if (arrengement == Arrengement.Wedding)
+            {
+                if (aantalUur < 7)
+                    throw new IncorrectParameterException("Een wedding arrengement duurt altijd minstens 7u");
+                if (startUur > 15 || startUur < 7)
+                    throw new IncorrectParameterException("Een wedding arrengement begint altijd tussen 7 en 15u");
+            }
             StartMoment = startDatum.AddHours(startUur);
             if (StartMoment<datumVanAanmaakReservatie)
                 throw new IncorrectParameterException("Er mag geen reservatie in het verleden worden aangemaakt.");
@@ -66,13 +96,13 @@ namespace DomainLibrary
             double btwPercentage = 0.06;
             if (Arrengement == Arrengement.Wellness)
             {
+                VastePrijs = (double)Limousine.WellnessPrijs;
                 TotaalMetKortingExclusiefBtw = (double)Limousine.WellnessPrijs;
-                
             }
             else if (Arrengement == Arrengement.Wedding)
             {
                 //maximum aantal uren controle nog toevoegen.
-                OverUurPrijs = (Math.Round(Limousine.EersteUurPrijs * 0.65) / 5) * 5;
+                OverUurPrijs = Math.Round(Limousine.EersteUurPrijs * 0.65 / 5) * 5;
                 AantalOverUur = AantalUur - 7;
                 TotaalMetKortingExclusiefBtw = AantalOverUur * OverUurPrijs;
                 //TotaalExclusiefBtw = WeddingExtraUrenPrijsBerekening(AantalUur, Limousine);
@@ -82,7 +112,7 @@ namespace DomainLibrary
             }
             else if (Arrengement == Arrengement.NightLife)
             {
-                NachtUurPrijs = (Math.Round(Limousine.EersteUurPrijs * 1.4) / 5) * 5;
+                NachtUurPrijs = Math.Round(Limousine.EersteUurPrijs * 1.4 / 5) * 5;
                 AantalNachtUur = AantalUur - 7;
                 TotaalMetKortingExclusiefBtw = AantalNachtUur * NachtUurPrijs;
 
@@ -130,17 +160,17 @@ namespace DomainLibrary
                     AantalStandaardUur = eindMoment.Hour - 7;
                     AantalNachtUur = AantalUur - 1 - AantalStandaardUur;
                 }
-                StandaarUurPrijs = (Math.Round(Limousine.EersteUurPrijs * 0.65) / 5) * 5;
-                NachtUurPrijs = (Math.Round(Limousine.EersteUurPrijs * 1.4) / 5) * 5;
+                StandaarUurPrijs = Math.Round((Limousine.EersteUurPrijs * 0.65) / 5) * 5;
+                NachtUurPrijs = Math.Round((Limousine.EersteUurPrijs * 1.4) / 5) * 5;
                 TotaalMetKortingExclusiefBtw += AantalStandaardUur * StandaarUurPrijs;
                 TotaalMetKortingExclusiefBtw += AantalNachtUur * NachtUurPrijs;
 
-                TotaalMetKortingExclusiefBtw = Math.Round(TotaalMetKortingExclusiefBtw * (1 - (AangerekendeKorting / 100))*100)/100;
             }
             else
             {
                 throw new NotImplementedException("New Arrengement is not properly implemented.");
             }
+            TotaalMetKortingExclusiefBtw = Math.Round((TotaalMetKortingExclusiefBtw * (1 - (AangerekendeKorting / 100))) * 100) / 100;
             BtwBedrag = Math.Round((TotaalMetKortingExclusiefBtw * btwPercentage) *100)/100;
             TotaalTeBetalen = (TotaalMetKortingExclusiefBtw + BtwBedrag);
         }

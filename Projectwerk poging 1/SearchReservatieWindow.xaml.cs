@@ -66,6 +66,8 @@ namespace Projectwerk_poging_1
         {
             ReservatieDataGrid.ItemsSource = null;
             ReservatieDataGrid.ItemsSource = reservaties;
+            if (reservaties.Count == 0)
+                MessageBox.Show("Geen resultaten gevonden.", "No results", MessageBoxButton.OK);
         }
 
         private void ToonReservatieDetailsButton_Click(object sender, RoutedEventArgs e)

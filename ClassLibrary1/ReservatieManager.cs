@@ -77,7 +77,6 @@ namespace DomainLibrary
         public Reservatie ReservatieMakenEnReturnen(int klantNr,DateTime startDatum,Arrengement arrengement, int startUur,int duur,int limoId, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
         {
             Klant klant = VindVolledigeKlantVoorKlantNummer(klantNr);
-            //int reservatieNummer = GetNewReservatieNummer();
             Limousine limo = FindLimousineVoorId(limoId);
             double korting = 0;
             if(klant.Categorie.StaffelKorting!=null)
@@ -88,14 +87,7 @@ namespace DomainLibrary
         }
         public void ReservatieMakenZonderReturnen(int klantNr, DateTime startDatum, Arrengement arrengement, int startUur, int duur, int limoId, StalLocatie startStalLocatie, StalLocatie aankomstStalLocatie, string verwachtAdres)
         {
-            Klant klant = VindVolledigeKlantVoorKlantNummer(klantNr);
-            //int reservatieNummer = GetNewReservatieNummer();
-            Limousine limo = FindLimousineVoorId(limoId);
-            double korting = 0;
-            if (klant.Categorie.StaffelKorting != null)
-                korting = BerekenKortingsPercentage(klant, startDatum);
-            Reservatie res = new Reservatie(klant, startDatum, arrengement, startUur, duur, limo, DateTime.Now, startStalLocatie, aankomstStalLocatie, verwachtAdres, korting);
-            AddReservatie(res);
+            var res = ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, startStalLocatie, aankomstStalLocatie, verwachtAdres);
         }
         public Reservatie VindReservatieVoorReservatieNummer(int reservatieNummer)
         {
@@ -107,7 +99,7 @@ namespace DomainLibrary
             return Handler.FindLimousineVoorId(id);
         }
 
-        public void AddReservatie(Reservatie reservatie)
+        private void AddReservatie(Reservatie reservatie)
         {
             Handler.AddReservatie(reservatie);
         }

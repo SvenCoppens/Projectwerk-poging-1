@@ -126,7 +126,7 @@ namespace DataLayer
         }
         public List<Klant> FindKlantVoorNaam(string naam)
         {
-            return Klanten.Include(k=>k.Categorie).Where(k => k.Naam.Contains(naam)).ToList();
+            return Klanten.Include(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(k => k.Naam.Contains(naam)).ToList();
         }
         public List<Reservatie> FindReservatieDetailsVoorKlantNaam(string klantNaam)
         {
