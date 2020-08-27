@@ -12,15 +12,45 @@ namespace ReservatieTests
         #region StaffelKortingen
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void StaffelKortingZonder0AlsBegin_ShouldThrowException()
+        public void StaffelKortingZonder0AlsBegin_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             StaffelKorting test = new StaffelKorting("test", new List<int> { 5 }, new List<double> { 5 });
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void StaffelKortingZonderElementen_ShouldThrowException()
+        public void StaffelKortingZonderElementen_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             StaffelKorting test = new StaffelKorting("test", new List<int>(), new List<double>());
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectParameterException))]
+        public void StaffelKortingMetOngelijkAantalBreekPuntenEnKortingen_ZouIncorrecteParameterExceptionMoetenGeven()
+        {
+            StaffelKorting test = new StaffelKorting("test", new List<int> {0,1,2,3,4 }, new List<double> {0,5,6,7,8,9 });
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectParameterException))]
+        public void StaffelKortingMoetGroeiendeBreekPuntenHebben_ZouIncorrecteParameterExceptionMoetenGeven()
+        {
+            StaffelKorting test = new StaffelKorting("test", new List<int> { 0,1, 2, 4,3 }, new List<double> {0, 5, 6, 7, 8});
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectParameterException))]
+        public void StaffelKortingMagGeenNegatieveBreekPuntenBevatten_ZouIncorrecteParameterExceptionMoetenGeven()
+        {
+            StaffelKorting test = new StaffelKorting("test", new List<int> { 0, -2, 4, 3 }, new List<double> { 0,5, 6, 7, 8 });
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectParameterException))]
+        public void StaffelKortingMoetGroeiendeKortingenHebben_ZouIncorrecteParameterExceptionMoetenGeven()
+        {
+            StaffelKorting test = new StaffelKorting("test", new List<int> { 1, 2,  3,4 }, new List<double> { 5, 6, 8,7 });
+        }
+        [TestMethod]
+        [ExpectedException(typeof(IncorrectParameterException))]
+        public void StaffelKortingMagGeenNegatieveKortingenHebben_ZouIncorrecteParameterExceptionMoetenGeven()
+        {
+            StaffelKorting test = new StaffelKorting("test", new List<int> {0,- 1, 2, 3, 4 }, new List<double> { 0,-5, 6, 8, 7 });
         }
         [TestMethod]
         public void StaffelKortingGeeftCorrecteKorting()
@@ -37,7 +67,7 @@ namespace ReservatieTests
         #endregion
 
         [TestMethod]
-        public void AfrondingenOpTarievenTest()
+        public void AfrondingenOpTarieven_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -51,7 +81,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -85,7 +115,7 @@ namespace ReservatieTests
             nightlifePrijs1 = 2500;
             weddingPrijs1 = 3000;
             wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
             limoId++;
             res = rm.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, stalLocatie, eindLocatie, verwachtAdres);
             Assert.IsTrue(res.StandaarUurPrijs == 100, "De standaard uurprijs werd niet correct afgerond.");
@@ -97,7 +127,7 @@ namespace ReservatieTests
             nightlifePrijs1 = 2500;
             weddingPrijs1 = 3000;
             wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
             limoId++;
             res = rm.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, stalLocatie, eindLocatie, verwachtAdres);
             Assert.IsTrue(res.StandaarUurPrijs == 100, "De standaard uurprijs werd niet correct afgerond.");
@@ -109,7 +139,7 @@ namespace ReservatieTests
             nightlifePrijs1 = 2500;
             weddingPrijs1 = 3000;
             wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
             limoId++;
             res = rm.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, stalLocatie, eindLocatie, verwachtAdres);
             Assert.IsTrue(res.StandaarUurPrijs == 100, "De standaard uurprijs werd niet correct afgerond.");
@@ -121,7 +151,7 @@ namespace ReservatieTests
             nightlifePrijs1 = 2500;
             weddingPrijs1 = 3000;
             wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
             limoId++;
             res = rm.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, stalLocatie, eindLocatie, verwachtAdres);
             Assert.IsTrue(res.StandaarUurPrijs == 100, "De standaard uurprijs werd niet correct afgerond.");
@@ -133,7 +163,7 @@ namespace ReservatieTests
             nightlifePrijs1 = 2500;
             weddingPrijs1 = 3000;
             wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
             limoId++;
             res = rm.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, stalLocatie, eindLocatie, verwachtAdres);
             Assert.IsTrue(res.StandaarUurPrijs == 100, "De standaard uurprijs werd niet correct afgerond.");
@@ -145,7 +175,7 @@ namespace ReservatieTests
             nightlifePrijs1 = 2500;
             weddingPrijs1 = 3000;
             wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
             limoId++;
             res = rm.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, stalLocatie, eindLocatie, verwachtAdres);
             Assert.IsTrue(res.StandaarUurPrijs == 100, "De standaard uurprijs werd niet correct afgerond.");
@@ -157,7 +187,7 @@ namespace ReservatieTests
             nightlifePrijs1 = 2500;
             weddingPrijs1 = 3000;
             wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
             limoId++;
             res = rm.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, stalLocatie, eindLocatie, verwachtAdres);
             Assert.IsTrue(res.StandaarUurPrijs == 100, "De standaard uurprijs werd niet correct afgerond.");
@@ -169,14 +199,14 @@ namespace ReservatieTests
             nightlifePrijs1 = 2500;
             weddingPrijs1 = 3000;
             wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
             limoId++;
             res = rm.ReservatieMakenEnReturnen(klantNr, startDatum, arrengement, startUur, duur, limoId, stalLocatie, eindLocatie, verwachtAdres);
             Assert.IsTrue(res.StandaarUurPrijs == 105, "De standaard uurprijs werd niet correct afgerond.");
             Assert.IsTrue(res.NachtUurPrijs == 220, "De nachtuur prijs werd niet correct afgerond.");
         }
         [TestMethod]
-        public void TestTarievenBerekeningAfronding()
+        public void TarievenBerekeningAfronding_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -190,7 +220,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -220,7 +250,7 @@ namespace ReservatieTests
             Assert.IsTrue(res.TotaalTeBetalen == 371, "btw percentage werd niet correct toegevoegd");
         }
         [TestMethod]
-        public void TestTarievenNachturenPrijsBerekening()
+        public void TarievenNachturenPrijsBerekening_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -234,7 +264,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -264,7 +294,7 @@ namespace ReservatieTests
             Assert.IsTrue(res.TotaalMetKortingExclusiefBtw == nightlifePrijs1, "Totaal werd niet correct berekend");
         }
         [TestMethod]
-        public void TestBusinessEnAirportMetNachturenCorrectBerekening()
+        public void BusinessEnAirportMetNachturenCorrectBerekening_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -278,7 +308,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -313,7 +343,7 @@ namespace ReservatieTests
         }
 
         [TestMethod]
-        public void TestWellnessTariefBerekening()
+        public void WellnessTariefBerekening_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -327,7 +357,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -359,7 +389,7 @@ namespace ReservatieTests
             Assert.IsTrue(res.TotaalMetKortingExclusiefBtw == wellnessPrijs1, "Totaal werd niet correct berekend");
         }
         [TestMethod]
-        public void TestNightlifeArrengement()
+        public void NightlifeArrengement_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -373,7 +403,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -406,7 +436,7 @@ namespace ReservatieTests
             Assert.IsTrue(res.TotaalMetKortingExclusiefBtw == 3620, "Totaal werd niet correct berekend");
         }
         [TestMethod]
-        public void TestWeddingArrengement()
+        public void WeddingArrengement_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -420,7 +450,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -454,7 +484,7 @@ namespace ReservatieTests
             Assert.IsTrue(res.TotaalMetKortingExclusiefBtw == 3520, "Totaal werd niet correct berekend");
         }
         [TestMethod]
-        public void TestNachtuurBerekeningVoorBusinessEnAirport()
+        public void NachtuurBerekeningVoorBusinessEnAirport_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -468,7 +498,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             int klantNr = 1;
             int limoId = 1;
@@ -536,7 +566,7 @@ namespace ReservatieTests
             Assert.IsTrue(res.AantalNachtUur == 0);
         }
         [TestMethod]
-        public void KortingCorrectToegepastTest()
+        public void KortingCorrectToegepast_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
 
@@ -553,7 +583,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             int klantNr = 1;
             int limoId = 1;
@@ -598,7 +628,7 @@ namespace ReservatieTests
             Assert.IsTrue(res.TotaalMetKortingExclusiefBtw == 2000);
         }
         [TestMethod]
-        public void TestKortingCorrectToegepastMetEindeVanHetJaar()
+        public void KortingCorrectToegepastMetEindeVanHetJaar_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             rm.VoegStaffelKortingToe("test", new List<int> { 0, 2, 4, 6 }, new List<double> { 0, 8, 15, 20 });
@@ -614,7 +644,7 @@ namespace ReservatieTests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             int klantNr = 1;
             int limoId = 1;
@@ -647,7 +677,7 @@ namespace ReservatieTests
 
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void ReservatieMagMaximaal11UurDuren_ZouExceptionMoetenGeven()
+        public void ReservatieMagMaximaal11UurDuren_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -664,7 +694,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void ReservatieAanmakenDieNietOpHetUurBegint_ZouParameterExceptionMoetenGeven()
+        public void ReservatieAanmakenDieNietOpHetUurBegint_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -681,7 +711,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void ReservatieAanmakenWaarDeStartDatumEenTijdBevat_ZouParameterExceptionMoetenGeven()
+        public void ReservatieAanmakenWaarDeStartDatumEenTijdBevat_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -698,7 +728,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void ReservatieAanmakenMetNegatieveDuur_ZouParameterExceptionMoetenGeven()
+        public void ReservatieAanmakenMetNegatieveDuur_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -715,7 +745,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void ReservatieAanmakenWaarHetStartUurNegatiefIs_ZouParameterExceptionMoetenGeven()
+        public void ReservatieAanmakenWaarHetStartUurNegatiefIs_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -732,7 +762,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void ReservatieAanmakenZonderDuur_ZouParameterExceptionMoetenGeven()
+        public void ReservatieAanmakenZonderDuur_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -749,7 +779,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void WellnessArrangementMetMeerDan10Uur_ZouParameterExceptionMoetenGeven()
+        public void WellnessArrangementMetMeerDan10Uur_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -766,7 +796,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void WellnessArrangementMetMinderDan10Uur_ZouParameterExceptionMoetenGeven()
+        public void WellnessArrangementMetMinderDan10Uur_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -783,7 +813,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void WellnessArrangementMagNietVoor7UurBeginnen_ZouParameterExceptionMoetenGeven()
+        public void WellnessArrangementMagNietVoor7UurBeginnen_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -800,7 +830,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void WellnessArrangementMagNietNa12UurBeginnen_ZouParameterExceptionMoetenGeven()
+        public void WellnessArrangementMagNietNa12UurBeginnen_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -817,7 +847,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void NightlifeArrangementDuurtAltijdMinstens7Uur_ZouParameterExceptionMoetenGeven()
+        public void NightlifeArrangementDuurtAltijdMinstens7Uur_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -834,7 +864,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void NightlifeArrangementMagNietVroegerDan20UurBeginnen_ZouParameterExceptionMoetenGeven()
+        public void NightlifeArrangementMagNietVroegerDan20UurBeginnen_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -851,7 +881,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void WeddingArrangementDuurtAltijdMinstens7Uur_ZouParameterExceptionMoetenGeven()
+        public void WeddingArrangementDuurtAltijdMinstens7Uur_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -868,7 +898,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void WeddingArrangementMagNietVroegerDan7UurBeginnen_ZouParameterExceptionMoetenGeven()
+        public void WeddingArrangementMagNietVroegerDan7UurBeginnen_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();
@@ -885,7 +915,7 @@ namespace ReservatieTests
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void WeddingArrangementMagNietLaterDan15UurBeginnen_ZouParameterExceptionMoetenGeven()
+        public void WeddingArrangementMagNietLaterDan15UurBeginnen_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             Klant klant = new Klant();
             Limousine limo = new Limousine();

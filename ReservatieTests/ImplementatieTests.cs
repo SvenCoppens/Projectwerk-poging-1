@@ -27,7 +27,7 @@ namespace DataLayer.Tests
             string adres = "TestAdres";
             rm.VoegKlantToe(klantNaam, klantenCategorie, btwNummer, adres);
 
-            Assert.IsTrue(rm.GetAantalKlanten() == 1);
+            Assert.IsTrue(rm.GeefAantalKlanten() == 1);
 
             Klant testKlant = rm.VindVolledigeKlantVoorKlantNummer(1);
 
@@ -38,7 +38,7 @@ namespace DataLayer.Tests
             Assert.IsTrue(testKlant.Naam == klantNaam, "klant naam klopte niet");
         }
         [TestMethod]
-        public void CorrectLimousineToevoegen()
+        public void CorrectLimousineToevoegen_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string naam = "testLimo1";
@@ -46,11 +46,11 @@ namespace DataLayer.Tests
             int nightlifePrijs1 = 2500;
             int weddingPrijs2 = 3000;
             int wellnessPrijs3 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
 
-            Assert.IsTrue(rm.GetAantalLimousines() == 1);
+            Assert.IsTrue(rm.GeefAantalLimousines() == 1);
 
-            Limousine testLimo = rm.FindLimousineVoorId(1);
+            Limousine testLimo = rm.VindLimousineVoorId(1);
 
             Assert.IsTrue(testLimo.Naam == naam,"Naam van de Limo is niet correct toegevoegd");
             Assert.IsTrue(testLimo.EersteUurPrijs == uurPrijs, "Eerste uur prijs van de Limo is niet correct toegevoegd");
@@ -59,7 +59,7 @@ namespace DataLayer.Tests
             Assert.IsTrue(testLimo.WellnessPrijs == wellnessPrijs3, "Wellness prijs van de Limo is niet correct toegevoegd");
         }
         [TestMethod]
-        public void LimoToevoegenAccepteertNullWaarden()
+        public void LimoToevoegenAccepteertNullWaarden_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string naam = "testLimo1";
@@ -67,9 +67,9 @@ namespace DataLayer.Tests
             int? nightlifePrijs1 = null;
             int? weddingPrijs2 = null;
             int? wellnessPrijs3 = null;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
 
-            Limousine testLimo = rm.FindLimousineVoorId(1);
+            Limousine testLimo = rm.VindLimousineVoorId(1);
 
             Assert.IsTrue(testLimo.Naam == naam, "Naam van de Limo is niet correct toegevoegd");
             Assert.IsTrue(testLimo.EersteUurPrijs == uurPrijs, "Eerste uur prijs van de Limo is niet correct toegevoegd");
@@ -78,7 +78,7 @@ namespace DataLayer.Tests
             Assert.IsTrue(testLimo.WellnessPrijs == null, "Wellness prijs van de Limo is niet null");
         }
         [TestMethod]
-        public void LimoToevoegenAccepteertGemengdeNullWaarden()
+        public void LimoToevoegenAccepteertGemengdeNullWaarden_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string naam = "testLimo1";
@@ -86,9 +86,9 @@ namespace DataLayer.Tests
             int? nightlifePrijs1 = 1234;
             int? weddingPrijs2 = null;
             int? wellnessPrijs3 = null;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
 
-            Limousine testLimo = rm.FindLimousineVoorId(1);
+            Limousine testLimo = rm.VindLimousineVoorId(1);
 
             Assert.IsTrue(testLimo.Naam == naam, "Naam van de Limo is niet correct toegevoegd");
             Assert.IsTrue(testLimo.EersteUurPrijs == uurPrijs, $"Eerste uur prijs van {testLimo.Naam} is niet correct toegevoegd");
@@ -99,9 +99,9 @@ namespace DataLayer.Tests
             nightlifePrijs1 = null;
             weddingPrijs2 = 9876;
             wellnessPrijs3 = null;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
 
-            testLimo = rm.FindLimousineVoorId(2);
+            testLimo = rm.VindLimousineVoorId(2);
 
             Assert.IsTrue(testLimo.Naam == naam, "Naam van de Limo is niet correct toegevoegd");
             Assert.IsTrue(testLimo.EersteUurPrijs == uurPrijs, $"Eerste uur prijs van {testLimo.Naam} is niet correct toegevoegd");
@@ -112,9 +112,9 @@ namespace DataLayer.Tests
             nightlifePrijs1 = null;
             weddingPrijs2 = null;
             wellnessPrijs3 = 5605;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
 
-            testLimo = rm.FindLimousineVoorId(3);
+            testLimo = rm.VindLimousineVoorId(3);
 
             Assert.IsTrue(testLimo.Naam == naam, "Naam van de Limo is niet correct toegevoegd");
             Assert.IsTrue(testLimo.EersteUurPrijs == uurPrijs, $"Eerste uur prijs van {testLimo.Naam} is niet correct toegevoegd");
@@ -137,7 +137,7 @@ namespace DataLayer.Tests
             Assert.IsTrue(test.StaffelKorting.BerekenKorting(999999999) == 0);
         }
         [TestMethod]
-        public void StaffelKortingToevoegen()
+        public void StaffelKortingToevoegen_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string naam = "testKorting1";
@@ -172,7 +172,7 @@ namespace DataLayer.Tests
             Assert.IsTrue(kP.BerekenKorting(b7) == k7);
         }
         [TestMethod]
-        public void ReservatieToevoegen()
+        public void ReservatieToevoegen_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             //Limo maken
@@ -181,7 +181,7 @@ namespace DataLayer.Tests
             int nightlifePrijs1 = 2500;
             int weddingPrijs2 = 3000;
             int wellnessPrijs3 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs2, wellnessPrijs3);
             //klant maken
             string klantNaam = "testklant1";
             string klantenCategorie = "testCategorie";
@@ -202,7 +202,7 @@ namespace DataLayer.Tests
 
             Reservatie res = rm.VindReservatieVoorReservatieNummer(1);
             Klant klant = rm.VindVolledigeKlantVoorKlantNummer(1);
-            Limousine limo = rm.FindLimousineVoorId(1);
+            Limousine limo = rm.VindLimousineVoorId(1);
 
             Assert.AreEqual(res.Klant, klant);
             Assert.AreEqual(res.Limousine, limo);
@@ -213,33 +213,33 @@ namespace DataLayer.Tests
             Assert.AreEqual(res.VerwachtAdres, verwachtAdres);
         }
         [TestMethod]
-        public void GetAantalLimosTest()
+        public void GetAantalLimosTest_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
-            Assert.AreEqual(rm.GetAantalLimousines(), 0);
+            Assert.AreEqual(rm.GeefAantalLimousines(), 0);
 
-            rm.AddLimousine("test1", 2, null, null, null);
-            rm.AddLimousine("test2", 2, null, null, null);
-            rm.AddLimousine("test3", 2, null, null, null);
-            rm.AddLimousine("test4", 2, null, null, null);
-            rm.AddLimousine("test5", 2, null, null, null);
+            rm.VoegLimousineToe("test1", 2, null, null, null);
+            rm.VoegLimousineToe("test2", 2, null, null, null);
+            rm.VoegLimousineToe("test3", 2, null, null, null);
+            rm.VoegLimousineToe("test4", 2, null, null, null);
+            rm.VoegLimousineToe("test5", 2, null, null, null);
 
-            Assert.AreEqual(rm.GetAantalLimousines(), 5);
+            Assert.AreEqual(rm.GeefAantalLimousines(), 5);
         }
         [TestMethod]
-        public void GetAantalKlantenTest()
+        public void GetAantalKlantenTest_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
-            Assert.AreEqual(rm.GetAantalKlanten(), 0);
+            Assert.AreEqual(rm.GeefAantalKlanten(), 0);
 
             rm.VoegKlantToe("testklant1", "test", "testbtw", "testadres");
             rm.VoegKlantToe("testklant2", "test", "testbtw", "testadres");
             rm.VoegKlantToe("testklant3", "test", "testbtw", "testadres");
 
-            Assert.AreEqual(rm.GetAantalKlanten(), 3);
+            Assert.AreEqual(rm.GeefAantalKlanten(), 3);
         }
         [TestMethod]
-        public void GetBeschikbareLimousinesTest_ControleerKoppeling()
+        public void GeefBeschikbareLimousines_Test_ControleerKoppeling()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -253,14 +253,14 @@ namespace DataLayer.Tests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string naam2 = "testLimo2";
             int uurPrijs2 = 150;
             int nightlifePrijs2 = 2500;
             int weddingPrijs2 = 3000;
             int wellnessPrijs2 = 4213;
-            rm.AddLimousine(naam2, uurPrijs2, nightlifePrijs2, weddingPrijs2, wellnessPrijs2);
+            rm.VoegLimousineToe(naam2, uurPrijs2, nightlifePrijs2, weddingPrijs2, wellnessPrijs2);
 
             int klantNr = 1;
             int limoId = 1;
@@ -287,26 +287,26 @@ namespace DataLayer.Tests
             DateTime startMoment1 = startDatum.AddHours(startUur);
             DateTime startMoment2 = startDatum2.AddHours(startUur2);
 
-            Assert.IsTrue(rm.GetBeschikbareLimousines(startMoment1, startMoment1.AddHours(duur)).Count==0);
-            Assert.IsTrue(rm.GetBeschikbareLimousines(new DateTime(2101, 8, 12, 10,0,0), new DateTime(2101, 8, 12, 19,0,0)).Count == 2);
-            Assert.IsTrue(rm.GetBeschikbareLimousines(startMoment1.AddHours(-12), startMoment1.AddHours(-6)).Count == 2);
-            Assert.IsTrue(rm.GetBeschikbareLimousines(startMoment2.AddHours(duur2+7), startMoment2.AddHours(duur2+8)).Count == 2);
-            var limos = rm.GetBeschikbareLimousines(startMoment1.AddHours(duur+6), startMoment1.AddHours(duur+8));
+            Assert.IsTrue(rm.GeefBeschikbareLimousinesVoorPeriode(startMoment1, startMoment1.AddHours(duur)).Count==0);
+            Assert.IsTrue(rm.GeefBeschikbareLimousinesVoorPeriode(new DateTime(2101, 8, 12, 10,0,0), new DateTime(2101, 8, 12, 19,0,0)).Count == 2);
+            Assert.IsTrue(rm.GeefBeschikbareLimousinesVoorPeriode(startMoment1.AddHours(-12), startMoment1.AddHours(-6)).Count == 2);
+            Assert.IsTrue(rm.GeefBeschikbareLimousinesVoorPeriode(startMoment2.AddHours(duur2+7), startMoment2.AddHours(duur2+8)).Count == 2);
+            var limos = rm.GeefBeschikbareLimousinesVoorPeriode(startMoment1.AddHours(duur+6), startMoment1.AddHours(duur+8));
             Assert.IsTrue(limos.Count == 1);
             Assert.IsTrue(limos[0].Id == 1);
 
-            limos = rm.GetBeschikbareLimousines(startMoment2.AddHours(-10), startMoment2.AddHours(-6));
+            limos = rm.GeefBeschikbareLimousinesVoorPeriode(startMoment2.AddHours(-10), startMoment2.AddHours(-6));
             Assert.IsTrue(limos.Count == 1);
             Assert.IsTrue(limos[0].Id == 2);
 
-            limos = rm.GetBeschikbareLimousines(startMoment2.AddHours(-10), startMoment2.AddHours(-5));
+            limos = rm.GeefBeschikbareLimousinesVoorPeriode(startMoment2.AddHours(-10), startMoment2.AddHours(-5));
             Assert.IsTrue(limos.Count == 0);
 
-            limos = rm.GetBeschikbareLimousines(startMoment1.AddHours(5), startMoment1.AddHours(8));
+            limos = rm.GeefBeschikbareLimousinesVoorPeriode(startMoment1.AddHours(5), startMoment1.AddHours(8));
             Assert.IsTrue(limos.Count == 0);
         }
         [TestMethod]
-        public void FindKlantVoorBtwNummerTest_ZouCorrecteKlantMoetenReturnenEnEnkelMetDeExacteString()
+        public void FindKlantVoorBtwNummer_Test_EnkelMetDeExacteString()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -315,7 +315,7 @@ namespace DataLayer.Tests
             string adres = "TestAdres";
             rm.VoegKlantToe(klantNaam, klantenCategorie, btwNummer, adres);
 
-            Klant testKlant = rm.FindKlantVoorBtwNummer(btwNummer);
+            Klant testKlant = rm.VindKlantVoorBtwNummer(btwNummer);
 
             Assert.IsTrue(testKlant.Adres == adres, "Adres klopte niet");
             Assert.IsTrue(testKlant.BtwNummer == btwNummer, "Btw nummer klopte niet");
@@ -323,11 +323,11 @@ namespace DataLayer.Tests
             Assert.IsTrue(testKlant.Categorie.StaffelKorting.Naam == "geen", "Staffelkorting naam klopte niet");
             Assert.IsTrue(testKlant.Naam == klantNaam, "klant naam klopte niet");
 
-            testKlant = rm.FindKlantVoorBtwNummer(btwNummer.Substring(0, 1));
+            testKlant = rm.VindKlantVoorBtwNummer(btwNummer.Substring(0, 1));
             Assert.IsNull(testKlant,"FindKlantVoorBtwNummer moet null returnen als de btwNummer string niet exact is");
         }
         [TestMethod]
-        public void FindKlantVoorNaamTest()
+        public void VindKlantVoorNaam_Test()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -349,36 +349,36 @@ namespace DataLayer.Tests
 
 
 
-            var klanten = rm.FindKlantVoorNaam(klantNaam.Substring(0,6));
+            var klanten = rm.VindKlantVoorNaam(klantNaam.Substring(0,6));
             Assert.IsTrue(klanten.Count == 3);
 
-            klanten = rm.FindKlantVoorNaam(klantNaam3);
+            klanten = rm.VindKlantVoorNaam(klantNaam3);
             Assert.IsTrue(klanten.Count == 1);
             Assert.IsTrue(klanten[0].Naam == klantNaam3);
 
-            klanten = rm.FindKlantVoorNaam(klantNaam);
+            klanten = rm.VindKlantVoorNaam(klantNaam);
             Assert.IsTrue(klanten.Count == 2);
             Assert.IsTrue(klanten[0].KlantNummer == 1);
             Assert.IsTrue(klanten[1].KlantNummer == 2);
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void GetBeschikbareLimousinesVoorEindDatumVRoegerDanStartDatum_ShouldThrowIncorrectParameterException()
+        public void GeefBeschikbareLimousinesVoorEindDatumVRoegerDanStartDatum_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler(true));
             DateTime datum = DateTime.Now;
-            rm.GetBeschikbareLimousines(datum, datum.AddHours(-6));  
+            rm.GeefBeschikbareLimousinesVoorPeriode(datum, datum.AddHours(-6));  
         }
         [TestMethod]
         [ExpectedException(typeof(IncorrectParameterException))]
-        public void GetBeschikbareLimousinesVoorEindDatumGelijkAanStartDatum_ShouldThrowIncorrectParameterException()
+        public void GeefBeschikbareLimousinesVoorEindDatumGelijkAanStartDatum_ZouIncorrecteParameterExceptionMoetenGeven()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler(true));
             DateTime datum = DateTime.Now;
-            rm.GetBeschikbareLimousines(datum, datum);
+            rm.GeefBeschikbareLimousinesVoorPeriode(datum, datum);
         }
         [TestMethod]
-        public void FindReservatieVoorKlantNaamTest()
+        public void VindReservatieVoorKlantNaamTest()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -392,7 +392,7 @@ namespace DataLayer.Tests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -439,16 +439,16 @@ namespace DataLayer.Tests
             string verwachtAdres3 = "testAdres3 75 testGemeente";
             rm.ReservatieMakenZonderReturnen(klantNr3, startDatum3, arrengement3, startUur3, duur3, limoId3, stalLocatie3, eindLocatie3, verwachtAdres3);
 
-            var result = rm.FindReservatieDetailsVoorKlantNaam(klantNaam.Substring(0, 8));
+            var result = rm.VindReservatiesVoorKlantNaam(klantNaam.Substring(0, 8));
             Assert.IsTrue(result.Count == 3);
-            result = rm.FindReservatieDetailsVoorKlantNaam(klantNaam3);
+            result = rm.VindReservatiesVoorKlantNaam(klantNaam3);
             Assert.IsTrue(result.Count == 0);
-            result = rm.FindReservatieDetailsVoorKlantNaam(klantNaam2);
+            result = rm.VindReservatiesVoorKlantNaam(klantNaam2);
             Assert.IsTrue(result.Count == 2);
 
         }
         [TestMethod]
-        public void FindReservatieVoorKlantNaamEnDatumTest()
+        public void VindReservatiesVoorKlantNaamEnDatumTest()
         {
             ReservatieManager rm = new ReservatieManager(new TestDataBaseHandler());
             string klantNaam = "testklant1";
@@ -462,7 +462,7 @@ namespace DataLayer.Tests
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             string klantNaam2 = "testklant12";
             string klantenCategorie2 = "testCategorie";
@@ -509,11 +509,11 @@ namespace DataLayer.Tests
             string verwachtAdres3 = "testAdres3 75 testGemeente";
             rm.ReservatieMakenZonderReturnen(klantNr3, startDatum3, arrengement3, startUur3, duur3, limoId3, stalLocatie3, eindLocatie3, verwachtAdres3);
 
-            var result = rm.FindReservatieDetailsVoorKlantNaamEnDatum(klantNaam, startDatum);
+            var result = rm.VindReservatiesVoorKlantNaamEnDatum(klantNaam, startDatum);
             Assert.IsTrue(result.Count == 2);
-            result = rm.FindReservatieDetailsVoorKlantNaamEnDatum(klantNaam2, startDatum);
+            result = rm.VindReservatiesVoorKlantNaamEnDatum(klantNaam2, startDatum);
             Assert.IsTrue(result.Count == 1);
-            result = rm.FindReservatieDetailsVoorKlantNaamEnDatum(klantNaam3,startDatum3);
+            result = rm.VindReservatiesVoorKlantNaamEnDatum(klantNaam3,startDatum3);
             Assert.IsTrue(result.Count == 0);
 
         }

@@ -28,41 +28,41 @@ namespace Projectwerk_poging_1
         private void ZoekOpKlantNaamButton_Click(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorKlantNaam(KlantNaamTextBox.Text);
-            SetDataGridSource(reservaties);
+            List<Reservatie> reservaties = rM.VindReservatiesVoorKlantNaam(KlantNaamTextBox.Text);
+            ZetDataGridBron(reservaties);
         }
 
         private void ZoekOpKlantNummerButton_Click(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorKlantNummer(int.Parse(KlantNummerTextBox.Text));
-            SetDataGridSource(reservaties);
+            List<Reservatie> reservaties = rM.VindReservatiesVoorKlantNummer(int.Parse(KlantNummerTextBox.Text));
+            ZetDataGridBron(reservaties);
         }
 
         private void ZoekOpDatumButton_Click(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
             DateTime datum = (DateTime)ReservatieDatumCalender.SelectedDate;
-            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorDatum(datum);
-            SetDataGridSource(reservaties);
+            List<Reservatie> reservaties = rM.VindReservatiesVoorDatum(datum);
+            ZetDataGridBron(reservaties);
         }
 
         private void ZoekOpNaamEnDatumButton_Click(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
             DateTime datum = (DateTime)ReservatieDatumCalender.SelectedDate;
-            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorKlantNaamEnDatum(KlantNaamTextBox.Text,datum);
-            SetDataGridSource(reservaties);
+            List<Reservatie> reservaties = rM.VindReservatiesVoorKlantNaamEnDatum(KlantNaamTextBox.Text,datum);
+            ZetDataGridBron(reservaties);
         }
 
         private void ZoekOpNummerEnDatumButton_Click(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
             DateTime datum = (DateTime)ReservatieDatumCalender.SelectedDate;
-            List<Reservatie> reservaties = rM.FindReservatieDetailsVoorKlantNummerEnDatum(int.Parse(KlantNummerTextBox.Text), datum);
-            SetDataGridSource(reservaties);
+            List<Reservatie> reservaties = rM.VindReservatiesVoorKlantNummerEnDatum(int.Parse(KlantNummerTextBox.Text), datum);
+            ZetDataGridBron(reservaties);
         }
-        private void SetDataGridSource(List<Reservatie> reservaties)
+        private void ZetDataGridBron(List<Reservatie> reservaties)
         {
             ReservatieDataGrid.ItemsSource = null;
             ReservatieDataGrid.ItemsSource = reservaties;

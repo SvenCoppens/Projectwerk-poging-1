@@ -48,63 +48,39 @@ namespace DataLayer
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Klant>().HasKey(t => t.KlantNummer);
-            modelBuilder.Entity<Klant>().Property(a => a.KlantNummer).ValueGeneratedNever(); //.HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Entity<Klant>().Property(a => a.KlantNummer).ValueGeneratedNever();
 
         }
 
 
-        public void AddKlant(Klant klant)
+        public void VoegKlantToe(Klant klant)
         {
             Klanten.Add(klant);
             SaveChanges();
         }
-        public void AddLimousine(Limousine limousine)
+        public void VoegLimousineToe(Limousine limousine)
         {
             Limousines.Add(limousine);
             SaveChanges();
         }
-        public void AddReservatie(Reservatie reservatie)
+        public void VoegReservatieToe(Reservatie reservatie)
         {
             Reservaties.Add(reservatie);
             SaveChanges();
         }
-        public int GetAantalKlanten()
+        public int GeefAantalKlanten()
         {
             return Klanten.Count();
         }
-        public int GetAantalLimousines()
+        public int GeefAantalLimousines()
         {
             return Limousines.Count();
         }
-        public List<Limousine> GetLimousinesWithReservaties()
+        public List<Limousine> GeefLimousinesMetReservatie()
         {
             return Limousines.Include(l=>l.Reservaties).ToList();
         }
-        public List<Limousine> GetBeschikbareLimousines(DateTime start, DateTime eind)
-        {
-            List < Limousine > result = new List<Limousine>();
-            foreach(Limousine limo in Limousines)
-            {
-                bool beschikbaar = false;
-
-                limo.Reservaties.OrderBy(x => x.StartMoment);
-                foreach(Reservatie res in limo.Reservaties)
-                {
-                    //beginuur nieuwe reservatie mag niet vallen tussen: beginuur reservatie en 6u na einduur reservatie
-                    if (!(start > res.StartMoment && start < res.StartMoment.AddHours(res.AantalUur + 6)))
-                    {
-                        if (eind < res.StartMoment.AddHours(-6))
-                            beschikbaar = true;
-                        else beschikbaar = false;
-                    }
-                    else beschikbaar = false;
-                }
-                if (beschikbaar)
-                    result.Add(limo);
-            }
-            return result;
-        }
-        public int GetNewKlantNummer()
+        public int GeefNieuwKlantNummer()
         {
             int hoogsteGetal;
             try
@@ -117,47 +93,47 @@ namespace DataLayer
             }
             return ++hoogsteGetal;
         }
-        public Klant FindKlantVoorBtwNummer(string btwNummer)
+        public Klant VindKlantVoorBtwNummer(string btwNummer)
         {
             var find = Klanten.Where(k => k.BtwNummer == btwNummer);
             if (find != null && find.Count() != 0)
                 return find.First();
             else return null;
         }
-        public List<Klant> FindKlantVoorNaam(string naam)
+        public List<Klant> VindKlantVoorNaam(string naam)
         {
             return Klanten.Include(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(k => k.Naam.Contains(naam)).ToList();
         }
-        public List<Reservatie> FindReservatieDetailsVoorKlantNaam(string klantNaam)
+        public List<Reservatie> VindReservatiesVoorKlantNaam(string klantNaam)
         {
             return Reservaties.Include(r=>r.Limousine).Include(r=>r.Klant).ThenInclude(k=>k.Categorie).ThenInclude(c=>c.StaffelKorting).Where(r => r.Klant.Naam.Contains(klantNaam)).ToList();
         }
-        public List<Reservatie> FindReservatieDetailsVoorKlantNummer(int klantNummer)
+        public List<Reservatie> VindReservatiesVoorKlantNummer(int klantNummer)
         {
             return Reservaties.Include(r => r.Limousine).Include(r => r.Klant).ThenInclude(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(r => r.Klant.KlantNummer == klantNummer).ToList();
         }
-        public List<Reservatie> FindReservatieDetailsVoorDatum(DateTime datum)
+        public List<Reservatie> VindReservatiesVoorDatum(DateTime datum)
         {
             return Reservaties.Include(r => r.Limousine).Include(r => r.Klant).ThenInclude(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(r => r.StartMoment.Date == datum.Date).ToList();
         }
-        public List<Reservatie> FindReservatieDetailsVoorKlantNaamEnDatum(string klantNaam, DateTime datum)
+        public List<Reservatie> VindReservatiesVoorKlantNaamEnDatum(string klantNaam, DateTime datum)
         {
             return Reservaties.Include(r => r.Limousine).Include(r => r.Klant).ThenInclude(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(r => r.StartMoment.Date == datum.Date && r.Klant.Naam.Contains(klantNaam)).ToList();
         }
-        public List<Reservatie> FindReservatieDetailsVoorKlantNummerEnDatum(int klantNummer, DateTime datum)
+        public List<Reservatie> VindReservatiesVoorKlantNummerEnDatum(int klantNummer, DateTime datum)
         {
             return Reservaties.Include(r => r.Limousine).Include(r => r.Klant).ThenInclude(k => k.Categorie).ThenInclude(c => c.StaffelKorting).Where(r => r.StartMoment.Date == datum.Date && r.Klant.KlantNummer == klantNummer).ToList();
         }
-        public Klant FindVolledigeKlantVoorKlantNummer(int klantNummer)
+        public Klant VindVolledigeKlantVoorKlantNummer(int klantNummer)
         {
             return Klanten.Include(k=>k.Categorie).ThenInclude(c=>c.StaffelKorting).SingleOrDefault(k=>k.KlantNummer==klantNummer);
         }
-        public int GetAantalReservatiesVoorKlantInJaar(Klant klant, int jaar)
+        public int GeefAantalReservatiesVoorKlantInJaar(Klant klant, int jaar)
         {
             return Reservaties.Where(r => r.Klant == klant && r.StartMoment.Year == jaar).Count();
         }
 
-        public Limousine FindLimousineVoorId(int id)
+        public Limousine VindLimousineVoorId(int id)
         {
             return Limousines.Find(id);
         }

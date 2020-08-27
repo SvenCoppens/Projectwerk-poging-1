@@ -135,7 +135,7 @@ namespace Projectwerk_poging_1
             DateTime start = (DateTime)DatePickerCalender.SelectedDate;
             start = start.AddHours((int)BeschikbareUrenList.SelectedItem);
             DateTime eind = start.AddHours((int)DuurLijst.SelectedItem);
-            List<Limousine> limousines = rM.GetBeschikbareLimousines(start, eind);
+            List<Limousine> limousines = rM.GeefBeschikbareLimousinesVoorPeriode(start, eind);
             Arrengement arrengement = (Arrengement)ArrengementTypeList.SelectedItem;
             if (arrengement == Arrengement.NightLife)
             {

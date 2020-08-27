@@ -17,28 +17,28 @@ namespace Projectwerk_poging_1
 
             //al de Limousines toevoegen aan de databank.
             ReservatieManager manager = new ReservatieManager(new ReservatieDatabaseHandler());
-            manager.AddLimousine("Porsche Cayenne Limousine White", 310, 1500, 1200, 1600);
-            manager.AddLimousine("Porsche Cayenne Limousine Electric Blue", 350, 1600, 1300, 1750);
-            manager.AddLimousine("Mercedes SL 55 AMG Silver", 225, null, 700, 1000);
-            manager.AddLimousine("Tesla Model X - White", 600, null, 2500, 2700);
-            manager.AddLimousine("Tesla Model S - White", 500, null, 2000, 2200);
+            manager.VoegLimousineToe("Porsche Cayenne Limousine White", 310, 1500, 1200, 1600);
+            manager.VoegLimousineToe("Porsche Cayenne Limousine Electric Blue", 350, 1600, 1300, 1750);
+            manager.VoegLimousineToe("Mercedes SL 55 AMG Silver", 225, null, 700, 1000);
+            manager.VoegLimousineToe("Tesla Model X - White", 600, null, 2500, 2700);
+            manager.VoegLimousineToe("Tesla Model S - White", 500, null, 2000, 2200);
 
-            manager.AddLimousine("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
-            manager.AddLimousine("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
-            manager.AddLimousine("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
-            manager.AddLimousine("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
-            manager.AddLimousine("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
+            manager.VoegLimousineToe("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
+            manager.VoegLimousineToe("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
+            manager.VoegLimousineToe("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
+            manager.VoegLimousineToe("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
+            manager.VoegLimousineToe("Porsche Cayenne Limousine White", 300, 1500, 1000, null);
 
-            manager.AddLimousine("Lincoln White XXL Navigator Limousine", 255, 790, 650, 950);
-            manager.AddLimousine("Lincoln Pink Limousine", 180, 900, 500, 1000);
-            manager.AddLimousine("Lincoln Black Limousine", 195, 850, 600, 1000);
-            manager.AddLimousine("Hummer Limousine Yellow", 225, 1290, 790, 1500);
-            manager.AddLimousine("Hummer Limousine Black", 195, 990, null, 1100);
-            manager.AddLimousine("Hummer Limousine White", 195, 990, null, null);
-            manager.AddLimousine("Chrysler 300C Sedan - White", 175, null, 450, 600);
-            manager.AddLimousine("Chrysler 300C Sedan - Black", 175, null, 450, 600);
-            manager.AddLimousine("Chrysler 300C Limousine - White", 175, 800, 500, 1000);
-            manager.AddLimousine("Chrysler 300C Limousine - Tuxedo Crème", 180, 800, 600, null);
+            manager.VoegLimousineToe("Lincoln White XXL Navigator Limousine", 255, 790, 650, 950);
+            manager.VoegLimousineToe("Lincoln Pink Limousine", 180, 900, 500, 1000);
+            manager.VoegLimousineToe("Lincoln Black Limousine", 195, 850, 600, 1000);
+            manager.VoegLimousineToe("Hummer Limousine Yellow", 225, 1290, 790, 1500);
+            manager.VoegLimousineToe("Hummer Limousine Black", 195, 990, null, 1100);
+            manager.VoegLimousineToe("Hummer Limousine White", 195, 990, null, null);
+            manager.VoegLimousineToe("Chrysler 300C Sedan - White", 175, null, 450, 600);
+            manager.VoegLimousineToe("Chrysler 300C Sedan - Black", 175, null, 450, 600);
+            manager.VoegLimousineToe("Chrysler 300C Limousine - White", 175, 800, 500, 1000);
+            manager.VoegLimousineToe("Chrysler 300C Limousine - Tuxedo Crème", 180, 800, 600, null);
 
             //al de bestaanden klanten toevoegen aan de databank
             //using (StreamReader reader = new StreamReader(@"D:\Programmeren Data en Bestanden\Programmeren Projectwerk\klanten.txt"))

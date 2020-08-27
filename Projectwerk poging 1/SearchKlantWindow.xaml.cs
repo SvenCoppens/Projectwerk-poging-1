@@ -32,18 +32,18 @@ namespace Projectwerk_poging_1
         private void BtwSearchButton(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            Klant klant = rM.FindKlantVoorBtwNummer(BtwNummerTextBox.Text);
+            Klant klant = rM.VindKlantVoorBtwNummer(BtwNummerTextBox.Text);
             List<Klant> klanten = new List<Klant> { klant };
-            SetDataGridSource(klanten);
+            ZetDataGridBron(klanten);
         }
 
         private void NaamSearchButton(object sender, RoutedEventArgs e)
         {
             ReservatieManager rM = new ReservatieManager(new ReservatieDatabaseHandler());
-            List<Klant> klanten = rM.FindKlantVoorNaam(KlantNaamTextBox.Text);
-            SetDataGridSource(klanten);
+            List<Klant> klanten = rM.VindKlantVoorNaam(KlantNaamTextBox.Text);
+            ZetDataGridBron(klanten);
         }
-        private void SetDataGridSource(List<Klant> klanten)
+        private void ZetDataGridBron(List<Klant> klanten)
         {
             KlantDataGrid.ItemsSource = null;
             KlantDataGrid.ItemsSource = klanten;

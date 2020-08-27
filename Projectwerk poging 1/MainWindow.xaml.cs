@@ -26,12 +26,12 @@ namespace Projectwerk_poging_1
         {
             InitializeComponent();
             ReservatieManager rm = new ReservatieManager(new ReservatieDatabaseHandler());
-            int limousines = rm.GetAantalLimousines();
+            int limousines = rm.GeefAantalLimousines();
             if (limousines == 0)
             {
                 InitialRun.CreateInitialDatabaseLimousines();
             }
-            if (rm.GetAantalKlanten() == 0)
+            if (rm.GeefAantalKlanten() == 0)
             {
                 InitialRun.CreateInitialDatabaseKlanten();
             }

@@ -13,7 +13,7 @@ namespace DomainLibrary
         public StaffelKorting(string naam,List<int> breekPunten, List<double> kortingsPercentages)
         {
             Naam = naam;
-            SetKortingen(breekPunten, kortingsPercentages);
+            MaakKortingString(breekPunten, kortingsPercentages);
         }
         public int Id { get; set; }
         public string Naam { get; set; }
@@ -37,7 +37,7 @@ namespace DomainLibrary
             }
             return kortingen[index];
         }
-        public void SetKortingen(List<int> breekPunten, List<double> kortingPercentages)
+        public void MaakKortingString(List<int> breekPunten, List<double> kortingPercentages)
         {
             if (breekPunten.Count== 0 || kortingPercentages.Count == 0)
                 throw new IncorrectParameterException("KortingsPercentages mag geen lege Lijsten ontvangen, moet minstens het beginpunt van 0 met 0% korting bevatten");

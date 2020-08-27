@@ -23,7 +23,7 @@ namespace HandmatigTesten
             int nightlifePrijs1 = 2500;
             int weddingPrijs1 = 3000;
             int wellnessPrijs1 = 4213;
-            rm.AddLimousine(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
+            rm.VoegLimousineToe(naam, uurPrijs, nightlifePrijs1, weddingPrijs1, wellnessPrijs1);
 
             int klantNr = 1;
             int limoId = 1;

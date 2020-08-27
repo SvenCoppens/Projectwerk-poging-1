@@ -18,7 +18,6 @@ namespace DomainLibrary
             BtwNummer = btwNummer;
             Adres = adres;
         }
-        //klantnummer zou bepaald moeten worden vanuit de database, dus niet echt behandeld in de constructor????
         [Key]
         public int KlantNummer { get; set; }
         public string Naam { get; set; }
